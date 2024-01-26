@@ -3,7 +3,7 @@ import firstImg from "../assets/Content/unsplash_Lks7vei-eAg.png";
 
 export default function Content() {
   return (
-    <div className="w-full h-[40rem] flex items-center justify-center md:mt-36 md:mb-36">
+    <div className="w-full h-[40rem] flex items-center justify-center md:mt-60 md:mb-36">
       <div className="flex md:flex-col">
         <div className="flex gap-5 md:justify-center">
           <img src={firstImg} className="w-48 h-[28rem]" alt="First Image" />
@@ -18,7 +18,7 @@ export default function Content() {
             Featured Products
           </h5>
           <h2 className="text-5xl font-bold mb-4">We love what we do</h2>
-          <div className="md:flex-col">
+          <div className="md:flex-col md:mb-20">
             <p className="text-[#737373] font-normal text-sm font-montserrat">
               Problems trying to resolve the conflict between <br />
               the two major realms of Classical physics: <br />

@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 export default function Product() {
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-12">
         <header className="flex text-center">
           <div className="justify-center items-center mt-16 mb-12">
             <h2 className="text-[#737373] font-normal text-xl font-montserrat">

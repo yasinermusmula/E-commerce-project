@@ -16,7 +16,7 @@ export default function Features() {
           Problems trying to resolve the conflict between{" "}
         </p>
       </div>
-      <div className="flex gap-8 justify-evenly ml-8 px-20 mt-32 md:flex-col">
+      <div className="flex gap-8 justify-evenly ml-8 px-20 mt-32 md:flex-wrap">
         <div className="text-center md:flex-col sm:flex-col">
           <img src={firstImg} className="ml-14" />
           <h3 className="text-[#252B42] font-bold text-2xl font-montserrat mt-5">

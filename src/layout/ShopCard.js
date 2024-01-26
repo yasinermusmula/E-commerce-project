@@ -5,7 +5,7 @@ import thirdImg from "../assets/ShopCard/unsplash_muOHbrFGEQY.jpg";
 export default function ShopCar() {
   return (
     <div className="flex justify-center">
-      <div className="flex md:flex-col md:mt-[32rem]">
+      <div className="flex md:flex-col md:mt-[36rem]">
         <div
           className="w-[38rem] h-[36rem] relative md:mb-5 md:w-[35rem] md:ml-3 object-cover"
           style={{

@@ -16,37 +16,37 @@ export default function Clients() {
   return (
     <div className="flex justify-center">
       <div className="flex h-[11rem] items-center md:flex-col">
-        <div>
+        <div className="md:mt-5">
           <FontAwesomeIcon
             icon={faHooli}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"
           />
         </div>
-        <div>
+        <div className="md:mt-5">
           <FontAwesomeIcon
             icon={faLyft}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"
           />
         </div>
-        <div>
+        <div className="md:mt-5">
           <FontAwesomeIcon
             icon={faLyft}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"
           />
         </div>
-        <div>
+        <div className="md:mt-5">
           <FontAwesomeIcon
             icon={faStripe}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"
           />
         </div>
-        <div>
+        <div className="md:mt-5">
           <FontAwesomeIcon
             icon={faAws}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"
           />
         </div>
-        <div>
+        <div className="md:mt-5">
           <FontAwesomeIcon
             icon={faAws}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"

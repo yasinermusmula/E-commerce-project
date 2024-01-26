@@ -11,10 +11,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Footer() {
   return (
-    <div className="bg-[#FFFFFF] ">
-      <div className="container mx-auto flex flex-col items-center">
-        <div className="flex mb-16 mt-16">
-          <div className="flex flex-col mr-8 mb-2 gap-6 px-12">
+    <div className="bg-[#FFFFFF]">
+      <div className="container mx-auto flex flex-col items-center md:flex-col">
+        <div className="flex mb-16 mt-16 md:flex-col">
+          <div className="flex flex-col mr-8 mb-2 gap-6 px-12 md:ml-7">
             <h3 className="text-[#252B42] font-montserrat font-bold text-2xl">
               Get In Touch
             </h3>
@@ -28,7 +28,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-col mr-8 mb-2 gap-5 px-20">
+          <div className="flex flex-col mr-8 mb-2 gap-5 px-20 md:pt-5">
             <h3 className="text-[#252B42] font-montserrat font-bold text-2xl">
               Company info
             </h3>
@@ -46,7 +46,7 @@ export default function Footer() {
             </a>
           </div>
 
-          <div className="flex flex-col mr-8 mb-2 gap-5 px-20">
+          <div className="flex flex-col mr-8 mb-2 gap-5 px-20 md:pt-5">
             <h3 className="text-[#252B42] font-montserrat font-bold text-2xl">
               Features
             </h3>
@@ -64,7 +64,7 @@ export default function Footer() {
             </a>
           </div>
 
-          <div className="flex flex-col mr-8 mb-2 gap-5 px-20">
+          <div className="flex flex-col mr-8 mb-2 gap-5 px-20 md:pt-5">
             <h3 className="text-[#252B42] font-montserrat font-bold text-2xl">
               Resources
             </h3>

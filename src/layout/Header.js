@@ -24,13 +24,13 @@ export default function Header() {
 
   return (
     <header className="w-full">
-      <div className="bg-[#FFFFFF] p-4 container flex items-center justify-evenly">
+      <div className="bg-[#FFFFFF] p-4 container flex items-center justify-evenly md:flex-col">
         <h3 className="text-[#252B42] text-2xl font-montserrat font-bold ">
           BrandName
         </h3>
 
-        <div className="flex">
-          <div className="flex">
+        <div className="flex md:flex-col">
+          <div className="flex md:flex-col">
             <a
               href="#"
               className="text-[#737373] font-montserrat font-bold px-4 hover:text-gray-300"
@@ -95,19 +95,21 @@ export default function Header() {
       </div>
 
       <div
-        className="flex flex-col items-center w-full h-[40rem] justify-center"
+        className="flex flex-col items-center w-full h-[40rem] justify-center md:flex-col"
         style={{
           backgroundImage: `url(${bgImg})`,
         }}
       >
-        <h1 className=" text-6xl text-[#FFFFFF] pr-8 font-montserrat font-bold mt-16">
+        <h1 className=" text-6xl text-[#FFFFFF] pr-8 font-montserrat font-bold mt-16 sm:ml-16">
           BLACK FRIDAY
         </h1>
-        <h4 className="text-[#FFFFFF] mt-10 font-normal text-xl items-center font-montserrat">
+        <h4 className="text-[#FFFFFF] mt-10 font-normal text-xl items-center font-montserrat sm:ml-16">
           We know how large objects will act, but things on a
-          <p className="text-center">small scale just do not act that way.</p>
+          <p className="text-center sm:mr-24">
+            small scale just do not act that way.
+          </p>
         </h4>
-        <button className="px-10 py-4 mt-2 bg-[#23A6F0] text-[#FFFFFF] font-bold text-2xl rounded-md">
+        <button className="px-10 py-4 mt-2 bg-[#23A6F0] text-[#FFFFFF] font-bold text-2xl rounded-md sm:mr-8">
           Start now
         </button>
       </div>

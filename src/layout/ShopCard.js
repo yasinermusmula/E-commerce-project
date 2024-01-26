@@ -7,16 +7,20 @@ export default function ShopCar() {
     <div className="flex justify-center">
       <div className="flex md:flex-col md:mt-[32rem]">
         <div
-          className="w-[38rem] h-[36rem] relative md:mb-5 md:w-[35rem] md:ml-3"
+          className="w-[38rem] h-[36rem] relative md:mb-5 md:w-[35rem] md:ml-3 object-cover"
           style={{
             backgroundImage: `url(${firstImg})`,
           }}
         >
-          <div className="absolute bottom-0 left-0 right-0 p-4 text-white flex flex-col items-start">
-            <h6 className="text-xl font-bold mb-2">Top Product Of the Week</h6>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded">
-              EXPLORE ITEMS
-            </button>
+          <div className="absolute bottom-0 left-0 right-0 text-white flex flex-col justify-evenly bg-[#2D8BC0] bg-opacity-75 w-[26rem] h-60">
+            <div className="ml-12 mt-12">
+              <h3 className="font-bold font-montserrat text-2xl">
+                Top Product Of <br /> the Week
+              </h3>
+              <button className="border text-white px-8 py-3 rounded mt-5 font-bold text-sm font-montserrat">
+                EXPLORE ITEMS
+              </button>
+            </div>
           </div>
         </div>
         <div className="ml-3">
@@ -26,9 +30,15 @@ export default function ShopCar() {
               backgroundImage: `url(${thirdImg})`,
             }}
           >
-            <div className="absolute bottom-0 left-0 right-0 p-4 text-white flex flex-col items-start">
-              <h6 className="">Top Product Of the Week</h6>
-              <button>EXPLORE ITEMS</button>
+            <div className="absolute bottom-0 left-0 right-0 p-4 text-white flex flex-col justify-center bg-[#2D8BC0] bg-opacity-75 w-[22rem] h-44">
+              <div className="ml-5 mt-7">
+                <h4 className="font-montserrat font-normal text-xl">
+                  Top Product Of the Week
+                </h4>
+                <button className="border text-white px-8 py-3 rounded mt-5 font-bold text-sm font-montserrat">
+                  EXPLORE ITEMS
+                </button>
+              </div>
             </div>
           </div>
           <div
@@ -38,9 +48,15 @@ export default function ShopCar() {
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div className="absolute bottom-0 left-0 right-0 p-4 text-white flex flex-col items-start">
-              <h6>Top Product Of the Week</h6>
-              <button>EXPLORE ITEMS</button>
+            <div className="absolute bottom-0 left-0 right-0 p-4 text-white flex flex-col justify-center bg-[#2D8BC0] bg-opacity-75 w-[23rem] h-36">
+              <div className="mt-5 ml-3">
+                <h4 className="font-montserrat font-normal text-xl">
+                  Top Product Of the Week
+                </h4>
+                <button className="border text-white px-8 py-3 rounded mt-5 font-bold text-sm font-montserrat">
+                  EXPLORE ITEMS
+                </button>
+              </div>
             </div>
           </div>
         </div>

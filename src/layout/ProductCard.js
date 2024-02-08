@@ -1,5 +1,5 @@
 import React from "react";
-import cartData from "./DummyCardData";
+import cartData from "../components/DummyCardData";
 
 export default function ProductCard({ product }) {
   return (

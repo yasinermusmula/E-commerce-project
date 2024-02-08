@@ -1,24 +1,23 @@
-import Clients from "./layout/Clients";
-import Footer from "./layout/Footer";
-import Header from "./layout/Header";
-import { Router } from "react-router-dom";
-import ShopCar from "./layout/ShopCard";
-import Product from "./components/Product";
-import Content from "./components/Content";
-import Features from "./layout/Features";
-import Blog from "./layout/Blog";
+
+import HomePage from "./components/HomePage";
+import { Switch, Route } from "react-router-dom/cjs/react-router-dom.min";
+import ShopingCard from "./layout/ShopingCard";
+import About from "./components/About";
 
 function App() {
   return (
     <>
-      <Header />
-      <Clients />
-      <ShopCar />
-      <Product />
-      <Content />
-      <Features />
-      <Blog />
-      <Footer />
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/shoping" exact>
+          <ShopingCard />
+        </Route>
+        <Route path="/about" exact>
+          <About />
+        </Route>
+      </Switch>
     </>
   );
 }

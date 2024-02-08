@@ -1,5 +1,5 @@
 import React from "react";
-import cartData from "./DummyCardData";
+import cartData from "../components/DummyCardData";
 import ProductCard from "./ProductCard";
 
 export default function Product() {
@@ -27,7 +27,7 @@ export default function Product() {
           ))}
         </div>
         <div className="flex justify-center mt-8">
-          <button className="text-[#23A6F0] border border-[#23A6F0] px-7 py-3 rounded font-bold text-base font-montserrat">
+          <button className="text-[#23A6F0] border border-[#23A6F0] px-7 py-3 rounded font-bold text-base font-montserrat ml-8">
             LOAD MORE PRODUCTS
           </button>
         </div>

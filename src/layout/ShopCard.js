@@ -1,6 +1,6 @@
-import firstImg from "../assets/ShopCard/unsplash_Bd7gNnWJBkU.jpg";
-import secondImg from "../assets/ShopCard/unsplash_MKvjc2kar7Q.jpg";
-import thirdImg from "../assets/ShopCard/unsplash_muOHbrFGEQY.jpg";
+import firstImg from "../assets/HomePageImg/unsplash_Bd7gNnWJBkU.jpg";
+import secondImg from "../assets/HomePageImg/unsplash_MKvjc2kar7Q.jpg";
+import thirdImg from "../assets/HomePageImg/unsplash_muOHbrFGEQY.jpg";
 
 export default function ShopCar() {
   return (

@@ -21,7 +21,7 @@ export default function Product() {
         </header>
       </div>
       <div className="container h-full">
-        <div className="flex flex-wrap gap-12 ml-[8rem] px-16">
+        <div className="flex flex-wrap gap-10 ml-32">
           {cartData.products.map((product) => (
             <ProductCard product={product} />
           ))}

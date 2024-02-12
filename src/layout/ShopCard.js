@@ -7,7 +7,7 @@ export default function ShopCar() {
     <div className="flex justify-center">
       <div className="flex md:flex-col md:mt-[36rem]">
         <div
-          className="w-[38rem] h-[36rem] relative md:mb-5 md:w-[35rem] md:ml-3 object-cover"
+          className="w-[38rem] h-[36rem] relative md:mb-5 md:w-[35rem] md:ml-3 object-cover bg-cover bg-center  "
           style={{
             backgroundImage: `url(${firstImg})`,
           }}
@@ -25,7 +25,7 @@ export default function ShopCar() {
         </div>
         <div className="ml-3">
           <div
-            className="w-[35rem] h-[18rem] relative"
+            className="w-[35rem] h-[18rem] relative bg-cover bg-center "
             style={{
               backgroundImage: `url(${thirdImg})`,
             }}
@@ -42,7 +42,7 @@ export default function ShopCar() {
             </div>
           </div>
           <div
-            className="w-[35rem] h-[16rem] mt-8 relative"
+            className="w-[35rem] h-[16rem] mt-8 relative bg-cover bg-center "
             style={{
               backgroundImage: `url(${secondImg})`,
               backgroundRepeat: "no-repeat",

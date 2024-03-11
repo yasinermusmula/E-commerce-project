@@ -22,7 +22,7 @@ export default function Product() {
       </div>
       <div className="container h-full">
         <div className="flex flex-wrap gap-10 ml-32">
-          {cartData.products.map((product) => (
+          {cartData.data.map((product) => (
             <ProductCard product={product} />
           ))}
         </div>

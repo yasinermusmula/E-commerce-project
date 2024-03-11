@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import bgImg from "../assets/ShopCardImg/media_bg-cover.png";
 import viewsSvg from "../assets/ShopCardImg/Vector.svg";
 import viewsSvg2 from "../assets/ShopCardImg/Vector (11).png";
+import newDummyDataTry from "../components/newDummyDataTry";
 
 import Hero from "./Hero";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,8 +15,80 @@ import {
   faChevronRight,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function ShopCard() {
+  console.log(cartData);
+
+  let isAddedToDatabase = false;
+
+  // useEffect(() => {
+  //   console.log("component did mount");
+  //   if (!isAddedToDatabase) {
+  //     for (let i = 0; i < cartData.data.length; i++) {
+  //       axios
+  //         .post("http://localhost:8085/api/products/", cartData.data[i])
+  //         .then((response) => {
+  //           console.log(response.data);
+  //           isAddedToDatabase = true;
+  //         })
+  //         .catch((error) => {
+  //           console.log("Error sending products: ", error);
+  //         });
+  //     }
+  //   }
+  // }, [cartData]);
+
+  // const postDataHandler = () => {
+  //   for (let i = 0; i < cartData.data.length; i++) {
+  //     axios
+  //       .post("http://localhost:8085/api/products/1", cartData.data[i])
+  //       .then((response) => {
+  //         console.log(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.log("Error sending products: ", error);
+  //       });
+  //   }
+  // };
+  //
+  // const getByIdHandler = () => {
+  //   let id = 5;
+  //   axios
+  //     .get(`http://localhost:8085/api/products/${id}`, cartData)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error sending products: ", err);
+  //     });
+  // };
+  //
+  // const deleteHandler = () => {
+  //   let id = 8;
+  //   axios
+  //     .delete(`http://localhost:8085/api/products/${id}`, cartData)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error sending products: ", err);
+  //     });
+  // };
+  // const updateHandler = () => {
+  //   axios
+  //     .post(`http://localhost:8085/api/products/`, cartData.ndata)
+  //     .then((response) => {
+  //       response.data.department = "Yasin";
+  //       response.data.title = "er";
+  //       console.log(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error sending products: ", err);
+  //     });
+  // };
+
   return (
     <div>
       <Hero />
@@ -42,17 +115,6 @@ export default function ShopCard() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-y-10 gap-x-5 text-center mt-5">
-            <a
-              className="w-52 h-56"
-              style={{ backgroundImage: `url(${bgImg})` }}
-            >
-              <h5 className="text-center top-20 mt-20 left-0 right-0 font-montserrat font-bold text-base text-[#FFFFFF]">
-                Clothes
-                <p className="font-montserrat font-normal text-sm text-[#FFFFFF]">
-                  5 items
-                </p>
-              </h5>
-            </a>
             <a
               className="w-52 h-56"
               style={{ backgroundImage: `url(${bgImg})` }}
@@ -142,7 +204,7 @@ export default function ShopCard() {
 
           <div className="container h-full xl:mt-2">
             <div className="flex flex-wrap gap-12 ml-[8rem] px-16">
-              {cartData.products.map((product) => (
+              {cartData.data.map((product) => (
                 <ProductCard product={product} />
               ))}
             </div>
@@ -162,6 +224,30 @@ export default function ShopCard() {
               <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
                 Next
               </button>
+              {/*<button*/}
+              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
+              {/*  onClick={postDataHandler}*/}
+              {/*>*/}
+              {/*  Post Data*/}
+              {/*</button>*/}
+              {/*<button*/}
+              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
+              {/*  onClick={getByIdHandler}*/}
+              {/*>*/}
+              {/*  Get Data By Id*/}
+              {/*</button>*/}
+              {/*<button*/}
+              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
+              {/*  onClick={deleteHandler}*/}
+              {/*>*/}
+              {/*  Delete Data By Id*/}
+              {/*</button>*/}
+              {/*<button*/}
+              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
+              {/*  onClick={updateHandler}*/}
+              {/*>*/}
+              {/*  Update Data By Id*/}
+              {/*</button>*/}
             </div>
             <div className="">
               <div className="">

@@ -5,6 +5,8 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function Hero() {
   return (
@@ -43,12 +45,13 @@ export default function Hero() {
           >
             Blog
           </a>
-          <a
+          <Link
+            to="/contact"
             href="#"
             className="text-[#737373] font-montserrat font-bold px-4 hover:text-gray-300"
           >
             Contact
-          </a>
+          </Link>
           <a
             href="#"
             className="text-[#737373] font-montserrat font-bold px-4 hover:text-gray-300"
@@ -58,14 +61,22 @@ export default function Hero() {
         </div>
 
         <div className="flex ml-24">
-          <a href="#" className="text-[#23A6F0] hover:text-blue-300">
+          <Link
+            to="/login"
+            href="#"
+            className="text-[#23A6F0] hover:text-blue-300"
+          >
             <FontAwesomeIcon icon={faUser} className="px-2" />
             Login
             <span className="text-[#23A6F0] px-1">/</span>
-          </a>
-          <a href="#" className="text-[#23A6F0] hover:text-blue-300">
+          </Link>
+          <Link
+            to="/signup"
+            href="#"
+            className="text-[#23A6F0] hover:text-blue-300"
+          >
             Register
-          </a>
+          </Link>
           <a href="#" className="text-[#23A6F0] px-4 hover:text-blue-300">
             <FontAwesomeIcon icon={faSearch} />
           </a>

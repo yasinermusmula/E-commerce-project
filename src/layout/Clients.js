@@ -9,6 +9,8 @@ import {
   faLyft,
   faStripe,
   faAws,
+  faPiedPiperHat,
+  faRedditAlien,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -30,7 +32,7 @@ export default function Clients() {
         </div>
         <div className="md:mt-5">
           <FontAwesomeIcon
-            icon={faLyft}
+            icon={faPiedPiperHat}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"
           />
         </div>
@@ -48,7 +50,7 @@ export default function Clients() {
         </div>
         <div className="md:mt-5">
           <FontAwesomeIcon
-            icon={faAws}
+            icon={faRedditAlien}
             className="mx-10 fa-5x md:mt-5 text-[#737373]"
           />
         </div>

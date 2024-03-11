@@ -1,8 +1,10 @@
-
 import HomePage from "./components/HomePage";
 import { Switch, Route } from "react-router-dom/cjs/react-router-dom.min";
 import ShopingCard from "./layout/ShopingCard";
 import About from "./components/About";
+import SignUpPage from "./components/SignUpPage";
+import Login from "./components/LoginPage";
+import Contact from "./components/Contact";
 
 function App() {
   return (
@@ -16,6 +18,15 @@ function App() {
         </Route>
         <Route path="/about" exact>
           <About />
+        </Route>
+        <Route path="/signup" exact>
+          <SignUpPage />
+        </Route>
+        <Route path="/login" exact>
+          <Login />
+        </Route>
+        <Route path="/contact" exact>
+          <Contact />
         </Route>
       </Switch>
     </>

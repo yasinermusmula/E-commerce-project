@@ -5,7 +5,7 @@ const initialGlobalState = {
   language: "",
 };
 
-export const globalReducer = (state, action) => {
+export const globalReducer = (state = initialGlobalState, action) => {
   switch (action.type) {
     default:
       return state;

@@ -5,6 +5,8 @@ import About from "./components/About";
 import SignUpPage from "./components/SignUpPage";
 import Login from "./components/LoginPage";
 import Contact from "./components/Contact";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Contact />
         </Route>
       </Switch>
+
+      <ToastContainer />
     </>
   );
 }

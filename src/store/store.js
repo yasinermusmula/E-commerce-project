@@ -10,13 +10,14 @@ import { shoppingCartReducer } from "./reducers/shoppingCartReducer";
 import { storeReducer } from "./reducers/storeReducer";
 import { userReducers } from "./reducers/userReducer";
 import { thunk } from "redux-thunk";
+import { logger } from "redux-logger/src";
 
 const reducers = combineReducers({
-  globalReducer,
-  productReducer,
-  shoppingCartReducer,
-  storeReducer,
-  userReducers,
+  global: globalReducer,
+  product: productReducer,
+  shoppingCart: shoppingCartReducer,
+  storeData: storeReducer,
+  user: userReducers,
 });
 
-export const store = createStore(reducers, applyMiddleware(thunk));
+export const store = createStore(reducers, applyMiddleware(thunk, logger));

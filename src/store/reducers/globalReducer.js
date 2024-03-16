@@ -19,6 +19,16 @@ export const globalReducer = (state = initialGlobalState, action) => {
         ...state,
         roles: action.payload,
       };
+    case SET_CATEGORIES:
+      return {
+        ...state,
+        categories: action.payload,
+      };
+    case CHANGE_THEME:
+      return {
+        ...state,
+        theme: action.payload,
+      };
     default:
       return state;
   }

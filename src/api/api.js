@@ -15,7 +15,7 @@ export const createAxiosInstance = () => {
   //       headers: {},
   //     });
   return axios.create({
-    baseURL: "https://workintech-fe-ecommerce.onrender.com/",
+    baseURL: "https://workintech-fe-ecommerce.onrender.com",
   });
 };
 

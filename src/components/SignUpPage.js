@@ -1,6 +1,6 @@
 import Hero from "../layout/Hero";
 import Footer from "./Footer";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -9,53 +9,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "reactstrap";
 import { API } from "../api/api";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRoles } from "../store/actions/globalActions";
 
 export default function SignUpPage() {
-  // const [userName, setUserName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPasword] = useState("");
-  const [role, setRole] = useState("user");
   const history = useHistory();
-  //
   const [store, setStore] = useState(false);
-  //
+
+  const rolesData = useSelector((store) => store.global.roles);
+  const dispatch = useDispatch();
   const changeHandler = (e) => {
     const selectedRole = e.target.value;
-    if (selectedRole === "store") {
+    if (selectedRole === "2") {
       setStore(true);
     } else {
       setStore(false);
     }
   };
-  //
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //
-  //   const formData = {
-  //     userName: userName,
-  //     email: email,
-  //     password: password,
-  //     role: role,
-  //   };
-  //
-  //   axios
-  //     .post("https://localhost:8085/api/auth/register", formData)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error.response.data);
-  //     });
-  // };
 
   const {
     register,
     handleSubmit,
     getValues,
+    watch,
     formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: "all",
+    defaultValues: {
+      role_id: 3,
+    },
   });
 
   const validatePasswordMatch = (value) => {
@@ -63,40 +47,48 @@ export default function SignUpPage() {
     return value === password || "Passwords do not match";
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
+    const { confirmPassword, ...postdata } = data;
+
     console.log("form submit edildi", data);
 
-    const formData = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      role_id: 2,
-    };
-    // if (role === "store") {
-    //   formData.role_id = 2;
-    //   formData.store = {
-    //     name: data.store,
-    //     // phone: telNumber,
-    //     // tax_no: data.tax_id,
-    //     // bank_account: data.iban,
-    //   };
-    // } else if (role === "admin") {
-    //   formData.role_id = 1;
-    // } else {
-    //   formData.role_id = 3;
-    // }
-
-    await API.post("/signup", formData)
+    console.log(postdata);
+    API.post("/signup", postdata)
       .then((res) => {
         console.log(res.data.message);
         history.push("/");
+        toast.success(res.data.message);
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log(err);
       });
-
-    console.log(data);
   };
+
+  useEffect(() => {
+    dispatch(fetchRoles());
+  }, []);
+
+  // useEffect(() => {
+  //   API.get("/roles")
+  //     .then((res) => {
+  //       //roles için action
+  //       //sonra burdan dispatch
+  //       //dispatch edilen yere roleOpt datalrını yollucaz
+  //       //
+  //       setRole(res.data);
+  //       // console.log(role);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //     });
+  //
+  //   fetchRoles();
+  //   setTimeout(() => {
+  //     console.log(role);
+  //     console.log("//////");
+  //     console.log(rolesData);
+  //   }, 2000);
+  // }, []);
 
   return (
     <>
@@ -230,19 +222,15 @@ export default function SignUpPage() {
                   Select Role
                 </label>
                 <select
-                  value={role}
+                  value={watch("role_id")}
                   onClick={changeHandler}
-                  onChange={(e) => setRole(e.target.value)}
+                  {...register("role_id")}
                 >
-                  <option value="user" id="3">
-                    User
+                  <option value={rolesData && rolesData[2]?.id}>Müşteri</option>
+                  <option value={rolesData && rolesData[0]?.id}>
+                    Yönetici
                   </option>
-                  <option value="admin" id="1">
-                    Admin
-                  </option>
-                  <option value="store" id="2">
-                    Store
-                  </option>
+                  <option value={rolesData && rolesData[1]?.id}>Mağaza</option>
                 </select>
                 {store && (
                   <>
@@ -254,12 +242,12 @@ export default function SignUpPage() {
                         Store Name
                       </label>
                       <input
-                        type="email"
-                        name="storeName"
-                        id="email"
+                        type="name"
+                        name="name"
+                        id="name"
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Write store name"
-                        {...register("storeName", {
+                        {...register("store.name", {
                           required: "Name can't be empty",
                           minLength: {
                             value: 3,
@@ -267,6 +255,12 @@ export default function SignUpPage() {
                           },
                         })}
                       />
+                      <label />
+                      {errors.store?.name && (
+                        <p className="text-red-500">
+                          {errors.store.name.message}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label
@@ -276,13 +270,24 @@ export default function SignUpPage() {
                         Store Phone
                       </label>
                       <input
-                        type="password"
-                        name="password"
-                        id="password"
+                        type="phone"
+                        name="phone"
                         placeholder="Write phone number"
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required=""
+                        {...register("store.phone", {
+                          required: "Phone can't be empty",
+                          minLength: {
+                            value: 11,
+                            message: "You have to write at least 11 charecters",
+                          },
+                        })}
                       />
+                      <label />
+                      {errors.store?.phone && (
+                        <p className="text-red-500">
+                          {errors.store.phone.message}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label
@@ -292,13 +297,21 @@ export default function SignUpPage() {
                         Store Tax ID
                       </label>
                       <input
-                        type="confirm-password"
-                        name="confirm-password"
+                        type="number"
+                        name="tax_no"
                         id="confirm-password"
                         placeholder="Write store tax ID"
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required=""
+                        {...register("store.tax_no", {
+                          required: "You must write Tax ID",
+                        })}
                       />
+                      <label />
+                      {errors.store?.tax_no && (
+                        <p className="text-red-500">
+                          {errors.store.tax_no.message}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label
@@ -308,13 +321,20 @@ export default function SignUpPage() {
                         Store Bank Account(IBAN)
                       </label>
                       <input
-                        type="confirm-password"
-                        name="confirm-password"
-                        id="confirm-password"
+                        type="number"
+                        name="bank_account"
                         placeholder="Write your IBAN"
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required=""
+                        {...register("store.bank_account", {
+                          required: "You must enter Bank Account",
+                        })}
                       />
+                      <label />
+                      {errors.store?.bank_account && (
+                        <p className="text-red-500">
+                          {errors.store.bank_account.message}
+                        </p>
+                      )}
                     </div>
                   </>
                 )}

@@ -48,12 +48,10 @@ export default function SignUpPage() {
   };
 
   const onSubmit = (data) => {
-    const { confirmPassword, ...postdata } = data;
-
     console.log("form submit edildi", data);
 
-    console.log(postdata);
-    API.post("/signup", postdata)
+    console.log(data);
+    API.post("/signup", data)
       .then((res) => {
         console.log(res.data.message);
         history.push("/");

@@ -1,11 +1,15 @@
 import Hero from "../layout/Hero";
 import Footer from "./Footer";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import React from "react";
 import { API } from "../api/api";
+import { useDispatch } from "react-redux";
+import { userCreationAction } from "../store/actions/userAction";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -14,14 +18,19 @@ export default function Login() {
     mode: "all",
   });
 
-  const onSubmit = (data) => {
-    console.log("Login submit edildi ", data);
-
-    const formData = {
-      name: data.name,
-    };
+  const submitHandler = (data) => {
+    // console.log("Login submit edildi ", data);
+    //
+    // API.post("/login", data)
+    //   .then(function (res) {
+    //     console.log("Login olundu", res.data);
+    //     history.push("/");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    dispatch(userCreationAction(data, history));
   };
-
   return (
     <>
       <Hero />
@@ -32,7 +41,11 @@ export default function Login() {
               <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Log in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form
+                onSubmit={handleSubmit(submitHandler)}
+                className="space-y-4 md:space-y-6"
+                action="#"
+              >
                 <div>
                   <label
                     for="email"
@@ -70,8 +83,10 @@ export default function Login() {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    {...register("password", {
+                      required: "You need to write your password",
+                    })}
                   />
                 </div>
 

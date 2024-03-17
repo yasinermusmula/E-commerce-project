@@ -1,20 +1,20 @@
 import axios from "axios";
 
 export const createAxiosInstance = () => {
-  // const token = JSON.parse(localStorage.getItem("token"));
-  //
+  const token = localStorage.getItem("token");
+  return axios.create({
+    baseURL: "https://workintech-fe-ecommerce.onrender.com/",
+    headers: token
+      ? {
+          Authorization: token,
+        }
+      : {},
+  });
+
   // return axios.create({
   //   baseURL: "https://workintech-fe-ecommerce.onrender.com/",
-  //   headers: token
-  //     ? {
-  //         Authorization: token,
-  //       }
-  //     : {},
+  //   headers: {},
   // });
-
-  return axios.create({
-    baseURL: "https://workintech-fe-ecommerce.onrender.com",
-  });
 };
 
 export let API = createAxiosInstance();

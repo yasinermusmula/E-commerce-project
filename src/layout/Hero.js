@@ -7,8 +7,19 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { FETCH_STATE } from "../store/reducers/productReducer";
+import { userLogOutAction } from "../store/actions/userAction";
 
 export default function Hero() {
+  const loginData = useSelector((store) => store.user.user);
+  const fetchData = useSelector((store) => store.user.fetchState);
+  const dispatch = useDispatch();
+
+  const logOut = () => {
+    dispatch(userLogOutAction());
+  };
+
   return (
     <div className="bg-[#FFFFFF] p-4 container flex items-center justify-evenly md:flex-col md:flex-wrap">
       <h3 className="text-[#252B42] text-2xl font-montserrat font-bold ">
@@ -59,24 +70,32 @@ export default function Hero() {
             Pages
           </a>
         </div>
-
         <div className="flex ml-24">
-          <Link
-            to="/login"
-            href="#"
-            className="text-[#23A6F0] hover:text-blue-300"
-          >
-            <FontAwesomeIcon icon={faUser} className="px-2" />
-            Login
-            <span className="text-[#23A6F0] px-1">/</span>
-          </Link>
-          <Link
-            to="/signup"
-            href="#"
-            className="text-[#23A6F0] hover:text-blue-300"
-          >
-            Register
-          </Link>
+          {fetchData === FETCH_STATE.FETCHED ? (
+            <>
+              <p>{loginData.name}</p>
+              <Link onClick={logOut}>Log Out</Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                href="#"
+                className="text-[#23A6F0] hover:text-blue-300"
+              >
+                <FontAwesomeIcon icon={faUser} className="px-2" />
+                Login
+                <span className="text-[#23A6F0] px-1">/</span>
+              </Link>
+              <Link
+                to="/signup"
+                href="#"
+                className="text-[#23A6F0] hover:text-blue-300"
+              >
+                Register
+              </Link>
+            </>
+          )}
           <a href="#" className="text-[#23A6F0] px-4 hover:text-blue-300">
             <FontAwesomeIcon icon={faSearch} />
           </a>

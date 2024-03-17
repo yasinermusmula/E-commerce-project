@@ -48,10 +48,10 @@ export default function SignUpPage() {
   };
 
   const onSubmit = (data) => {
-    console.log("form submit edildi", data);
+    const { confirmPassword, ...postData } = data;
+    console.log("form submit edildi", postData);
 
-    console.log(data);
-    API.post("/signup", data)
+    API.post("/signup", postData)
       .then((res) => {
         console.log(res.data.message);
         history.push("/");
@@ -64,6 +64,7 @@ export default function SignUpPage() {
 
   useEffect(() => {
     dispatch(fetchRoles());
+    console.log("Roles fetch", rolesData);
   }, []);
 
   // useEffect(() => {

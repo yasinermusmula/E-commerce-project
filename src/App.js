@@ -7,8 +7,19 @@ import Login from "./components/LoginPage";
 import Contact from "./components/Contact";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { userVerify } from "./store/actions/userAction";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      dispatch(userVerify());
+    }
+  }, []);
+
   return (
     <>
       <Switch>

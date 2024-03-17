@@ -17,9 +17,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../store/actions/globalActions";
 
 export default function ShopCard() {
-  console.log(cartData);
+  const categorisData = useSelector((store) => store.global.categories);
+  const dispatch = useDispatch();
+  // console.log(categorisData[0].gender);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, []);
 
   let isAddedToDatabase = false;
 

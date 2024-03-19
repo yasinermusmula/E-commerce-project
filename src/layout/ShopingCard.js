@@ -20,83 +20,36 @@ import axios from "axios";
 import { API } from "../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../store/actions/globalActions";
+import { Link } from "react-router-dom";
+import { fetchProducts } from "../store/actions/productAction";
+import { FETCH_STATE } from "../store/reducers/productReducer";
 
 export default function ShopCard() {
-  const categorisData = useSelector((store) => store.global.categories);
   const dispatch = useDispatch();
-  // console.log(categorisData[0].gender);
+  const categorisData = useSelector((store) => store.global.categories);
+  const productData = useSelector((store) => store.product);
+  // const productFetchData = useSelector((store) => store.product.fetchState);
+  // console.log("Categori çekildi", categorisData);
+  console.log("Product cekildi", productData);
+  const sortedCatagories = categorisData.sort((a, b) => b.rating - a.rating);
+  console.log("sorted category", sortedCatagories);
+  const firstFiveCat = sortedCatagories.slice(0, 5);
+  console.log("first five", firstFiveCat);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    dispatch(fetchCategories());
-  }, []);
+    dispatch(fetchProducts(currentPage));
+  }, [currentPage]);
 
-  let isAddedToDatabase = false;
+  const nextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
-  // useEffect(() => {
-  //   console.log("component did mount");
-  //   if (!isAddedToDatabase) {
-  //     for (let i = 0; i < cartData.data.length; i++) {
-  //       axios
-  //         .post("http://localhost:8085/api/products/", cartData.data[i])
-  //         .then((response) => {
-  //           console.log(response.data);
-  //           isAddedToDatabase = true;
-  //         })
-  //         .catch((error) => {
-  //           console.log("Error sending products: ", error);
-  //         });
-  //     }
-  //   }
-  // }, [cartData]);
-
-  // const postDataHandler = () => {
-  //   for (let i = 0; i < cartData.data.length; i++) {
-  //     axios
-  //       .post("http://localhost:8085/api/products/1", cartData.data[i])
-  //       .then((response) => {
-  //         console.log(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.log("Error sending products: ", error);
-  //       });
-  //   }
-  // };
-  //
-  // const getByIdHandler = () => {
-  //   let id = 5;
-  //   axios
-  //     .get(`http://localhost:8085/api/products/${id}`, cartData)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error sending products: ", err);
-  //     });
-  // };
-  //
-  // const deleteHandler = () => {
-  //   let id = 8;
-  //   axios
-  //     .delete(`http://localhost:8085/api/products/${id}`, cartData)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error sending products: ", err);
-  //     });
-  // };
-  // const updateHandler = () => {
-  //   axios
-  //     .post(`http://localhost:8085/api/products/`, cartData.ndata)
-  //     .then((response) => {
-  //       response.data.department = "Yasin";
-  //       response.data.title = "er";
-  //       console.log(response.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error sending products: ", err);
-  //     });
-  // };
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
 
   return (
     <div>
@@ -122,63 +75,21 @@ export default function ShopCard() {
               </div>
             </div>
           </div>
-
-          <div className="flex flex-wrap justify-center gap-y-10 gap-x-5 text-center mt-5">
-            <a
-              className="w-52 h-56"
-              style={{ backgroundImage: `url(${bgImg})` }}
-            >
-              <h5 className="text-center top-20 mt-20 left-0 right-0 font-montserrat font-bold text-base text-[#FFFFFF]">
-                Clothes
-                <p className="font-montserrat font-normal text-sm text-[#FFFFFF]">
-                  5 items
-                </p>
-              </h5>
-            </a>
-            <a
-              className="w-52 h-56"
-              style={{ backgroundImage: `url(${bgImg})` }}
-            >
-              <h5 className="text-center top-20 mt-20 left-0 right-0 font-montserrat font-bold text-base text-[#FFFFFF]">
-                Clothes
-                <p className="font-montserrat font-normal text-sm text-[#FFFFFF]">
-                  5 items
-                </p>
-              </h5>
-            </a>
-            <a
-              className="w-52 h-56"
-              style={{ backgroundImage: `url(${bgImg})` }}
-            >
-              <h5 className="text-center top-20 mt-20 left-0 right-0 font-montserrat font-bold text-base text-[#FFFFFF]">
-                Clothes
-                <p className="font-montserrat font-normal text-sm text-[#FFFFFF]">
-                  5 items
-                </p>
-              </h5>
-            </a>
-            <a
-              className="w-52 h-56"
-              style={{ backgroundImage: `url(${bgImg})` }}
-            >
-              <h5 className="text-center top-20 mt-20 left-0 right-0 font-montserrat font-bold text-base text-[#FFFFFF]">
-                Clothes
-                <p className="font-montserrat font-normal text-sm text-[#FFFFFF]">
-                  5 items
-                </p>
-              </h5>
-            </a>
-            <a
-              className="w-52 h-56"
-              style={{ backgroundImage: `url(${bgImg})` }}
-            >
-              <h5 className="text-center top-20 mt-20 left-0 right-0 font-montserrat font-bold text-base text-[#FFFFFF]">
-                Clothes
-                <p className="font-montserrat font-normal text-sm text-[#FFFFFF]">
-                  5 items
-                </p>
-              </h5>
-            </a>
+          <div className="flex flex-wrap justify-center gap-y-10 gap-x-5 text-center mt-8">
+            {firstFiveCat.map((cat) => (
+              <Link
+                to="/"
+                className="w-52 h-56 bg-cover hover:shadow-lg hover:transform hover:scale-105"
+                style={{ backgroundImage: `url(${cat.img})` }}
+              >
+                <h5 className="text-center top-20 mt-20 left-0 right-0 font-montserrat font-bold text-base text-[#FFFFFF]">
+                  {cat.title}
+                  <p className="font-montserrat font-normal text-sm text-[#FFFFFF]">
+                    {cat.gender === "k" ? <p>Kadın</p> : <p>Erkek</p>}
+                  </p>
+                </h5>
+              </Link>
+            ))}
           </div>
 
           <div className="flex justify-around m-10">
@@ -213,13 +124,21 @@ export default function ShopCard() {
 
           <div className="container h-full xl:mt-2">
             <div className="flex flex-wrap gap-12 ml-[8rem] px-16">
-              {cartData.data.map((product) => (
-                <ProductCard product={product} />
-              ))}
+              {productData.fetchState === FETCH_STATE.FETCHED ? (
+                productData.productList.map((product) => (
+                  <ProductCard product={product} />
+                ))
+              ) : (
+                <p>Loading..</p>
+              )}
             </div>
             <div className="flex justify-center mt-8">
-              <button className="text-[#BDBDBD] bg-[#F3F3F3] border border-[#BDBDBD] px-4 py-5 rounded font-bold text-base font-montserrat ml-8">
-                First
+              <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                className="text-[#BDBDBD] bg-[#F3F3F3] border border-[#BDBDBD] px-4 py-5 rounded font-bold text-base font-montserrat ml-8"
+              >
+                Previous
               </button>
               <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
                 1
@@ -230,33 +149,12 @@ export default function ShopCard() {
               <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
                 3
               </button>
-              <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
+              <button
+                onClick={nextPage}
+                className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"
+              >
                 Next
               </button>
-              {/*<button*/}
-              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
-              {/*  onClick={postDataHandler}*/}
-              {/*>*/}
-              {/*  Post Data*/}
-              {/*</button>*/}
-              {/*<button*/}
-              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
-              {/*  onClick={getByIdHandler}*/}
-              {/*>*/}
-              {/*  Get Data By Id*/}
-              {/*</button>*/}
-              {/*<button*/}
-              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
-              {/*  onClick={deleteHandler}*/}
-              {/*>*/}
-              {/*  Delete Data By Id*/}
-              {/*</button>*/}
-              {/*<button*/}
-              {/*  className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat ml-5"*/}
-              {/*  onClick={updateHandler}*/}
-              {/*>*/}
-              {/*  Update Data By Id*/}
-              {/*</button>*/}
             </div>
             <div className="">
               <div className="">

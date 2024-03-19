@@ -10,11 +10,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { userVerify } from "./store/actions/userAction";
+import { fetchCategories } from "./store/actions/globalActions";
+import { fetchProducts } from "./store/actions/productAction";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchProducts());
     if (localStorage.getItem("token")) {
       dispatch(userVerify());
     }

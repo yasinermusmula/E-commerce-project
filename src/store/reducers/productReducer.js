@@ -1,3 +1,5 @@
+import { SET_FETCH_STATE, SET_PRODUCT_LIST } from "../actions/productAction";
+
 export const FETCH_STATE = {
   NOT_FETCHED: "Not Fetched",
   FETCHING: "Fetching",
@@ -14,6 +16,16 @@ const initialProductState = {
 
 export const productReducer = (state = initialProductState, action) => {
   switch (action.type) {
+    case SET_PRODUCT_LIST:
+      return {
+        ...state,
+        productList: action.payload,
+      };
+    case SET_FETCH_STATE:
+      return {
+        ...state,
+        fetchState: action.payload,
+      };
     default:
       return state;
   }

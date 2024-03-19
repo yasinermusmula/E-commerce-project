@@ -1,4 +1,6 @@
 import { retry } from "@reduxjs/toolkit/query";
+import { FETCH_STATE } from "../reducers/productReducer";
+import { API } from "../../api/api";
 
 export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
 export const SET_PRODUCT_COUNT = "SET_PRODUCT_COUNT";
@@ -22,5 +24,19 @@ export function setActiveCount(activeCount) {
   return { type: SET_ACTIVE_COUNT, payload: Number(activeCount) };
 }
 export function setFetchState(fetchState) {
-  return { type: SET_ACTIVE_COUNT, payload: fetchState };
+  return { type: SET_FETCH_STATE, payload: fetchState };
 }
+
+export const fetchProducts = () => (dispatch) => {
+  dispatch(setFetchState(FETCH_STATE.FETCHING));
+  API.get("products")
+    .then((res) => {
+      dispatch(setProductList(res.data.products));
+      dispatch(setFetchState(FETCH_STATE.FETCHED));
+      console.log("Products Fetched", res.data.products);
+    })
+    .catch((err) => {
+      dispatch(setFetchState(FETCH_STATE.FAILED));
+      console.log(err.message);
+    });
+};

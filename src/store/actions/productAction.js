@@ -1,4 +1,3 @@
-import { retry } from "@reduxjs/toolkit/query";
 import { FETCH_STATE } from "../reducers/productReducer";
 import { API } from "../../api/api";
 

@@ -38,7 +38,7 @@ export default function SignUpPage() {
   } = useForm({
     mode: "all",
     defaultValues: {
-      role_id: 3,
+      role_id: "3",
     },
   });
 
@@ -60,11 +60,21 @@ export default function SignUpPage() {
       .catch((err) => {
         console.log(err);
       });
+
+    // axios
+    //   .post("http://localhost:8082/api/signup/register", postData)
+    //   .then((res) => {
+    //     console.log("Submit edildi", res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
   };
 
   useEffect(() => {
     dispatch(fetchRoles());
     console.log("Roles fetch", rolesData);
+    console.log(rolesData);
   }, []);
 
   // useEffect(() => {
@@ -225,10 +235,8 @@ export default function SignUpPage() {
                   onClick={changeHandler}
                   {...register("role_id")}
                 >
-                  <option value={rolesData && rolesData[2]?.id}>Müşteri</option>
-                  <option value={rolesData && rolesData[0]?.id}>
-                    Yönetici
-                  </option>
+                  <option value={rolesData && rolesData[2]?.id}>USER</option>
+                  <option value={rolesData && rolesData[0]?.id}>ADMIN</option>
                   <option value={rolesData && rolesData[1]?.id}>Mağaza</option>
                 </select>
                 {store && (

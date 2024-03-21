@@ -10,11 +10,48 @@ import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { FETCH_STATE } from "../store/reducers/productReducer";
 import { userLogOutAction } from "../store/actions/userAction";
+import { useRef, useState } from "react";
 
 export default function Hero() {
   const loginData = useSelector((store) => store.user.user);
   const fetchData = useSelector((store) => store.user.fetchState);
   const dispatch = useDispatch();
+  const [firstDropDown, setFirstDropDown] = useState(false);
+  const [secondDropDown, setSecondDropDown] = useState(false);
+  const womanDropdownRef = useRef(null);
+  const manDropDownRef = useRef(null);
+  const categories = useSelector((store) => store.global.categories);
+
+  const manCat = categories.filter((man) => man.gender === "e");
+  const womanCat = categories.filter((women) => women.gender === "k");
+  console.log("header manCat", manCat);
+  console.log("header womenCat", womanCat);
+  const firstToggleDropdown = () => {
+    setFirstDropDown(!firstDropDown);
+    setSecondDropDown(false); // İlk dropdown açıldığında ikinci dropdownu kapat
+  };
+
+  const secondToggleDropdown = () => {
+    setSecondDropDown(!secondDropDown);
+  };
+
+  const handleMouseEnter = () => {
+    if (!secondDropDown) {
+      setSecondDropDown(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      if (
+        secondDropDown &&
+        womanDropdownRef.current &&
+        !womanDropdownRef.current.contains(document.activeElement)
+      ) {
+        setSecondDropDown(false);
+      }
+    }, 200); // İkinci dropdown'un kapanması için biraz gecikme ekledik
+  };
 
   const logOut = () => {
     dispatch(userLogOutAction());
@@ -35,14 +72,101 @@ export default function Hero() {
           >
             Home
           </Link>
-          <Link
-            to="/shoping"
-            href=""
-            className="text-[#737373] font-montserrat font-bold px-4 hover:text-gray-300"
-          >
-            Shop
-            <FontAwesomeIcon icon={faChevronDown} className="pl-2" />
-          </Link>
+          <div className="flex">
+            <Link
+              to="/shoping"
+              className="text-[#737373] font-montserrat font-bold px-4 text-center hover:text-gray-300 pr-0"
+              type="button"
+            >
+              Shop
+            </Link>
+            <button
+              onClick={firstToggleDropdown}
+              className={`hover:text-amber-600 ${firstDropDown ? "rotate-90" : "rtl:rotate-180"}`}
+            >
+              {" "}
+              >{" "}
+            </button>
+            <div
+              className={`absolute ${firstDropDown ? "block" : "hidden"} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-8 h-20`}
+            >
+              <ul
+                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                aria-labelledby="multiLevelDropdownButton"
+              >
+                <li className=" hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <button
+                    href="#"
+                    className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Man
+                    <svg
+                      className={`w-2.5 h-2.5 ms-3 ${secondDropDown ? "rotate-90" : "rtl:rotate-180"}`}
+                      aria-hidden="true"
+                      fill="none"
+                      viewBox="0 0 6 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 9 4-4-4-4"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    id="doubleDropdownButton"
+                    data-dropdown-toggle="doubleDropdown"
+                    data-dropdown-placement="right-start"
+                    type="button"
+                    className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onMouseEnter={handleMouseEnter} // İkinci dropdowna mouse ile gelindiğinde açılmasını sağlar
+                  >
+                    Women
+                    <svg
+                      className={`w-2.5 h-2.5 ms-3 ${secondDropDown ? "rotate-90" : "rtl:rotate-180"}`}
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 6 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 9 4-4-4-4"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    ref={womanDropdownRef}
+                    className={`ml-40  ${secondDropDown ? "block right-0" : "hidden"} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <ul
+                      className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                      aria-labelledby="doubleDropdownButton"
+                    >
+                      {womanCat.map((women) => (
+                        <li>
+                          <Link
+                            to={`/shoping/${women.gender}/${women.title}/${women.id}`}
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            {women.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
           <Link
             to="/about"
             href=""

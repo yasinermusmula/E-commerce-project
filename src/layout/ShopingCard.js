@@ -8,12 +8,15 @@ import bgImg from "../assets/ShopCardImg/media_bg-cover.png";
 import viewsSvg from "../assets/ShopCardImg/Vector.svg";
 import viewsSvg2 from "../assets/ShopCardImg/Vector (11).png";
 import newDummyDataTry from "../components/newDummyDataTry";
+import { Audio } from "react-loader-spinner";
+import spinnerImg from "../assets/ShopCardImg/Spinner-1s-200px.png";
 
 import Hero from "./Hero";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
   faChevronDown,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -21,8 +24,12 @@ import { API } from "../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../store/actions/globalActions";
 import { Link } from "react-router-dom";
-import { fetchProducts } from "../store/actions/productAction";
+import {
+  fetchPorductWithParams,
+  fetchProducts,
+} from "../store/actions/productAction";
 import { FETCH_STATE } from "../store/reducers/productReducer";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function ShopCard() {
   const dispatch = useDispatch();
@@ -32,23 +39,50 @@ export default function ShopCard() {
   // console.log("Categori çekildi", categorisData);
   console.log("Product cekildi", productData);
   const sortedCatagories = categorisData.sort((a, b) => b.rating - a.rating);
+  // const priceSortingProducts = productData.productList.sort(
+  //   (a, b) => a.price - b.price
+  // );
+
+  // console.log("Price sort", priceSortingProducts);
+
   console.log("sorted category", sortedCatagories);
   const firstFiveCat = sortedCatagories.slice(0, 5);
   console.log("first five", firstFiveCat);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [sortVal, setSortVal] = useState("");
+  const [paramObj, setParamObj] = useState({
+    category: "",
+    sort: "",
+  });
+
+  const params = useParams();
+  console.log(params);
+
+  // console.log(cat);
 
   useEffect(() => {
-    dispatch(fetchProducts(currentPage));
-  }, [currentPage]);
+    setParamObj({
+      ...paramObj,
+      category: params.catId,
+      sort: sortVal ? sortVal : "",
+    });
+    console.log("id", params.catId);
+  }, [params, sortVal]);
+  //
 
-  const nextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+  useEffect(() => {
+    dispatch(fetchPorductWithParams(paramObj));
+  }, [paramObj.category]);
+
+  useEffect(() => {
+    dispatch(fetchPorductWithParams);
+  });
+
+  const filterHandle = () => {
+    dispatch(fetchPorductWithParams(paramObj));
   };
 
-  const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
+  const handleOnChange = (e) => {
+    setParamObj({ ...paramObj, filter: e.target.value });
   };
 
   return (
@@ -78,7 +112,7 @@ export default function ShopCard() {
           <div className="flex flex-wrap justify-center gap-y-10 gap-x-5 text-center mt-8">
             {firstFiveCat.map((cat) => (
               <Link
-                to="/"
+                to={`/shoping/${cat.gender}/${cat.title}/${cat.id}`}
                 className="w-52 h-56 bg-cover hover:shadow-lg hover:transform hover:scale-105"
                 style={{ backgroundImage: `url(${cat.img})` }}
               >
@@ -112,12 +146,32 @@ export default function ShopCard() {
               </button>
             </div>
             <div>
-              <button className="border rounded w-32 h-8 border-[#DDDDDD] bg-[#F9F9F9] text-[#737373]">
+              <input onChange={handleOnChange} />
+              <button
+                onClick={filterHandle}
+                className="border border-black rounded w-20 h-8 ml-2 bg-[#23A6F0] text-[#FFFFFF]"
+              >
+                Filter
+              </button>
+            </div>
+            <div>
+              <select
+                value={sortVal}
+                onChange={(e) => setSortVal(e.target.value)}
+                className="border rounded w-32 h-8 border-[#DDDDDD] bg-[#F9F9F9] text-[#737373]"
+              >
+                <option value="rating:asc">Rating: Low To High</option>
+                <option value="rating:desc">Rating: High To Low</option>
+                <option value="price:asc">Price: Low To High</option>
+                <option value="price:desc">Price: High To Low</option>
                 Popularity
                 <FontAwesomeIcon icon={faChevronDown} className="ml-1" />
-              </button>
-              <button className="border rounded w-20 h-8 ml-2 bg-[#23A6F0] text-[#FFFFFF]">
-                Filter
+              </select>
+              <button
+                onClick={filterHandle}
+                className="border rounded w-20 h-8 ml-2 bg-[#23A6F0] text-[#FFFFFF]"
+              >
+                Sort
               </button>
             </div>
           </div>
@@ -129,15 +183,13 @@ export default function ShopCard() {
                   <ProductCard product={product} />
                 ))
               ) : (
-                <p>Loading..</p>
+                <div className="m-auto">
+                  <img src={spinnerImg} className="bg-white" />
+                </div>
               )}
             </div>
             <div className="flex justify-center mt-8">
-              <button
-                onClick={prevPage}
-                disabled={currentPage === 1}
-                className="text-[#BDBDBD] bg-[#F3F3F3] border border-[#BDBDBD] px-4 py-5 rounded font-bold text-base font-montserrat ml-8"
-              >
+              <button className="text-[#BDBDBD] bg-[#F3F3F3] border border-[#BDBDBD] px-4 py-5 rounded font-bold text-base font-montserrat ml-8">
                 Previous
               </button>
               <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
@@ -149,10 +201,7 @@ export default function ShopCard() {
               <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
                 3
               </button>
-              <button
-                onClick={nextPage}
-                className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"
-              >
+              <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
                 Next
               </button>
             </div>

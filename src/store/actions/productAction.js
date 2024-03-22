@@ -1,5 +1,6 @@
 import { FETCH_STATE } from "../reducers/productReducer";
 import { API } from "../../api/api";
+import axios from "axios";
 
 export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
 export const SET_PRODUCT_COUNT = "SET_PRODUCT_COUNT";
@@ -26,7 +27,7 @@ export function setFetchState(fetchState) {
   return { type: SET_FETCH_STATE, payload: fetchState };
 }
 
-export const fetchProducts = () => (dispatch) => {
+export const fetchProducts = () => (dispatch, getState) => {
   dispatch(setFetchState(FETCH_STATE.FETCHING));
   API.get("products")
     .then((res) => {
@@ -38,4 +39,13 @@ export const fetchProducts = () => (dispatch) => {
       dispatch(setFetchState(FETCH_STATE.FAILED));
       console.log(err.message);
     });
+};
+
+export const fetchPorductWithParams = (params) => (dispatch) => {
+  dispatch(setFetchState(FETCH_STATE.FETCHING));
+  API.get("products", { params }).then((res) => {
+    dispatch(setProductList(res.data.products));
+    dispatch(setFetchState(FETCH_STATE.FETCHED));
+    console.log("Product with params fetched", res.data.products);
+  });
 };

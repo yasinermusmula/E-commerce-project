@@ -1,8 +1,10 @@
 import React from "react";
-import cartData from "../components/DummyCardData";
 import ProductCard from "./ProductCard";
+import { useSelector } from "react-redux";
 
 export default function Product() {
+  const productData = useSelector((store) => store.product);
+
   return (
     <>
       <div className="flex justify-center mt-12">
@@ -21,8 +23,8 @@ export default function Product() {
         </header>
       </div>
       <div className="container h-full">
-        <div className="flex flex-wrap gap-10 ml-32">
-          {cartData.data.map((product) => (
+        <div className="flex flex-wrap gap-10 ml-32 px-16">
+          {productData.productList.map((product) => (
             <ProductCard product={product} />
           ))}
         </div>

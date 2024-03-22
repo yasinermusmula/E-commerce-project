@@ -30,6 +30,7 @@ import {
 } from "../store/actions/productAction";
 import { FETCH_STATE } from "../store/reducers/productReducer";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import ReactPaginate from "react-paginate";
 
 export default function ShopCard() {
   const dispatch = useDispatch();
@@ -39,10 +40,9 @@ export default function ShopCard() {
   // console.log("Categori çekildi", categorisData);
   console.log("Product cekildi", productData);
   const sortedCatagories = categorisData.sort((a, b) => b.rating - a.rating);
-  // const priceSortingProducts = productData.productList.sort(
-  //   (a, b) => a.price - b.price
-  // );
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [offset, setOffset] = useState(25);
+  console.log("product object", productData);
   // console.log("Price sort", priceSortingProducts);
 
   console.log("sorted category", sortedCatagories);
@@ -52,6 +52,7 @@ export default function ShopCard() {
   const [paramObj, setParamObj] = useState({
     category: "",
     sort: "",
+    ofset: 0,
   });
 
   const params = useParams();
@@ -64,18 +65,19 @@ export default function ShopCard() {
       ...paramObj,
       category: params.catId,
       sort: sortVal ? sortVal : "",
+      ofset: offset,
     });
     console.log("id", params.catId);
-  }, [params, sortVal]);
+  }, [params, sortVal, offset]);
   //
 
   useEffect(() => {
     dispatch(fetchPorductWithParams(paramObj));
   }, [paramObj.category]);
 
-  useEffect(() => {
-    dispatch(fetchPorductWithParams);
-  });
+  // useEffect(() => {
+  //   dispatch(fetchPorductWithParams);
+  // });
 
   const filterHandle = () => {
     dispatch(fetchPorductWithParams(paramObj));
@@ -83,6 +85,28 @@ export default function ShopCard() {
 
   const handleOnChange = (e) => {
     setParamObj({ ...paramObj, filter: e.target.value });
+  };
+
+  const totalPages = Math.ceil(productData.totalProductCount / 25);
+  console.log("total", productData.totalProductCount);
+  console.log(totalPages);
+
+  const handlePageChange = (newOffset) => {
+    setCurrentPage(Math.ceil(newOffset / 25) + 1);
+    setOffset(newOffset);
+    dispatch(fetchPorductWithParams({ ...paramObj, offset: newOffset }));
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(offset - 25);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(offset + 25);
+    }
   };
 
   return (
@@ -189,22 +213,34 @@ export default function ShopCard() {
               )}
             </div>
             <div className="flex justify-center mt-8">
-              <button className="text-[#BDBDBD] bg-[#F3F3F3] border border-[#BDBDBD] px-4 py-5 rounded font-bold text-base font-montserrat ml-8">
+              <button
+                onClick={handlePrevPage}
+                className="text-[#BDBDBD] bg-[#F3F3F3] border border-[#BDBDBD] px-4 py-5 rounded font-bold text-base font-montserrat ml-8"
+              >
                 Previous
               </button>
-              <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
-                1
-              </button>
-              <button className="bg-[#23A6F0] text-[#FFFFFF] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
-                2
-              </button>
-              <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
-                3
-              </button>
-              <button className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat">
+              {[...Array(totalPages).keys()].map((pageNum) => (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum * 25)}
+                  className={`border ${pageNum * 25 === offset ? "bg-[#23A6F0] text-white" : "text-[#23A6F0] border-[#BDBDBD]"} px-5 py-3 rounded font-bold text-base font-montserrat`}
+                >
+                  {pageNum + 1}
+                </button>
+              ))}
+              <button
+                onClick={handleNextPage}
+                className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"
+              >
                 Next
               </button>
             </div>
+            {/*<ReactPaginate*/}
+            {/*  breakLabel="..."*/}
+            {/*  nextLabel="next >"*/}
+            {/*  onPageChange={handlePageChange}*/}
+            {/*  // className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"*/}
+            {/*/>*/}
             <div className="">
               <div className="">
                 <Clients />

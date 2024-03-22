@@ -13,8 +13,8 @@ export function setProductList(productList) {
   return { type: SET_PRODUCT_LIST, payload: productList };
 }
 
-export function setProductCount() {
-  return { type: SET_PRODUCT_COUNT };
+export function setProductCount(productCount) {
+  return { type: SET_PRODUCT_COUNT, payload: productCount };
 }
 
 export function setPageCount(pageCount) {
@@ -32,6 +32,7 @@ export const fetchProducts = () => (dispatch, getState) => {
   API.get("products")
     .then((res) => {
       dispatch(setProductList(res.data.products));
+      dispatch(setProductCount(res.data.total));
       dispatch(setFetchState(FETCH_STATE.FETCHED));
       console.log("Products Fetched", res.data.products);
     })

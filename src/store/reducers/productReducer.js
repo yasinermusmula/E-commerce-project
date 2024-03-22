@@ -1,4 +1,8 @@
-import { SET_FETCH_STATE, SET_PRODUCT_LIST } from "../actions/productAction";
+import {
+  SET_FETCH_STATE,
+  SET_PRODUCT_COUNT,
+  SET_PRODUCT_LIST,
+} from "../actions/productAction";
 
 export const FETCH_STATE = {
   NOT_FETCHED: "Not Fetched",
@@ -11,6 +15,7 @@ const initialProductState = {
   productList: [],
   totalProductCount: 0,
   pageCount: 0,
+  activePage: 1,
   fetchState: FETCH_STATE.NOT_FETCHED,
 };
 
@@ -20,6 +25,11 @@ export const productReducer = (state = initialProductState, action) => {
       return {
         ...state,
         productList: action.payload,
+      };
+    case SET_PRODUCT_COUNT:
+      return {
+        ...state,
+        totalProductCount: action.payload,
       };
     case SET_FETCH_STATE:
       return {

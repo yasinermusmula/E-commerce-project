@@ -15,7 +15,6 @@ const initialProductState = {
   productList: [],
   totalProductCount: 0,
   pageCount: 0,
-  activePage: 1,
   fetchState: FETCH_STATE.NOT_FETCHED,
 };
 

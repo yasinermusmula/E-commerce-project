@@ -8,12 +8,17 @@ import Contact from "./components/Contact";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userVerify } from "./store/actions/userAction";
 import { fetchCategories } from "./store/actions/globalActions";
 import { fetchProducts } from "./store/actions/productAction";
+import axios from "axios";
 
 function App() {
+  const categoryListData = useSelector((store) => store.global.categories);
+  const productListData = useSelector((store) => store.product.productList);
+  console.log("Product app", productListData);
+  console.log("Category app", categoryListData);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +28,41 @@ function App() {
       dispatch(userVerify());
     }
   }, []);
+
+  for (let i = 0; i < categoryListData.length; i++) {
+    console.log(categoryListData[i]);
+  }
+
+  useEffect(() => {
+    for (let i = 0; i < categoryListData.length; i++) {
+      axios
+        .post("http://localhost:8082/api/category/", categoryListData[i])
+        .then((res) => {
+          console.log("Post succes", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [categoryListData]);
+
+  useEffect(() => {
+    const postData = async () => {
+      try {
+        for (let i = 0; i < productListData.length; i++) {
+          const res = await axios.post(
+            "http://localhost:8082/api/product/",
+            productListData[i],
+          );
+          console.log("Post products", res.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    postData();
+  }, [productListData]);
 
   return (
     <>

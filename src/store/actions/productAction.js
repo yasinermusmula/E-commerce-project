@@ -46,6 +46,7 @@ export const fetchPorductWithParams = (params) => (dispatch) => {
   dispatch(setFetchState(FETCH_STATE.FETCHING));
   API.get("products", { params }).then((res) => {
     dispatch(setProductList(res.data.products));
+    dispatch(setProductCount(res.data.total));
     dispatch(setFetchState(FETCH_STATE.FETCHED));
     console.log("Product with params fetched", res.data.products);
   });

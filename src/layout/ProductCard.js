@@ -50,7 +50,7 @@ export default function ProductCard({ product }) {
           {product.name}
         </h5>
         <p className="text-sm text-center items-center font-bold text-[#737373] mb-2 font-montserrat">
-          {product.description}
+          {/*{product.description}*/}
           <br />
           {product.rating}
         </p>

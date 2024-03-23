@@ -153,7 +153,7 @@ export default function ShopCard() {
           <div className="flex justify-around m-10">
             <div>
               <h6 className="font-bold font-montserrat text-base text-[#737373] mt-1">
-                Showing all 12 results
+                {`Showing all ${productData.totalProductCount} results`}
               </h6>
             </div>
             <div className="flex">
@@ -239,7 +239,8 @@ export default function ShopCard() {
             {/*  breakLabel="..."*/}
             {/*  nextLabel="next >"*/}
             {/*  onPageChange={handlePageChange}*/}
-            {/*  // className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"*/}
+            {/*  pageCount={currentPage}*/}
+            {/*  className="flex justify-center text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"*/}
             {/*/>*/}
             <div className="">
               <div className="">

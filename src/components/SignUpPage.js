@@ -61,14 +61,14 @@ export default function SignUpPage() {
         console.log(err);
       });
 
-    // axios
-    //   .post("http://localhost:8082/api/signup/register", postData)
-    //   .then((res) => {
-    //     console.log("Submit edildi", res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.message);
-    //   });
+    axios
+      .post("http://localhost:8082/api/signup/register", postData)
+      .then((res) => {
+        console.log("Submit edildi", res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   useEffect(() => {

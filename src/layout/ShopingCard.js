@@ -67,7 +67,7 @@ export default function ShopCard() {
       sort: sortVal ? sortVal : "",
       ofset: offset,
     });
-    console.log("id", params.catId);
+    console.log("id", params);
   }, [params, sortVal, offset]);
   //
 
@@ -201,7 +201,7 @@ export default function ShopCard() {
           </div>
 
           <div className="container h-full xl:mt-2">
-            <div className="flex flex-wrap gap-12 ml-[8rem] px-16">
+            <div className="flex flex-wrap gap-12 mx-16 px-16">
               {productData.fetchState === FETCH_STATE.FETCHED ? (
                 productData.productList.map((product) => (
                   <ProductCard product={product} />

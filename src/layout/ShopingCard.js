@@ -204,12 +204,7 @@ export default function ShopCard() {
             <div className="flex flex-wrap gap-12 mx-16 px-16">
               {productData.fetchState === FETCH_STATE.FETCHED ? (
                 productData.productList.map((product) => (
-                  <Link
-                    to={`/productDetail/${product.category_id}/${product.id}/${product.name}`}
-                    product={product}
-                  >
-                    <ProductCard product={product} />
-                  </Link>
+                  <ProductCard product={product} />
                 ))
               ) : (
                 <div className="m-auto">

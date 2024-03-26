@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { FETCH_STATE } from "../store/reducers/productReducer";
 import { userLogOutAction } from "../store/actions/userAction";
 import { useRef, useState } from "react";
+import { store } from "../store/store";
+import { deleteShoppingCard } from "../store/actions/shoppingCartAction";
 
 export default function Hero() {
   const loginData = useSelector((store) => store.user.user);
@@ -18,9 +20,12 @@ export default function Hero() {
   const dispatch = useDispatch();
   const [firstDropDown, setFirstDropDown] = useState(false);
   const [secondDropDown, setSecondDropDown] = useState(false);
+  const [shoppingCart, SetShoppingCart] = useState(false);
   const womanDropdownRef = useRef(null);
   const manDropDownRef = useRef(null);
   const categories = useSelector((store) => store.global.categories);
+  const shoppingCartSection = useSelector((store) => store.shoppingCart.cart);
+  console.log(shoppingCartSection);
 
   const manCat = categories.filter((man) => man.gender === "e");
   const womanCat = categories.filter((women) => women.gender === "k");
@@ -55,6 +60,14 @@ export default function Hero() {
 
   const logOut = () => {
     dispatch(userLogOutAction());
+  };
+
+  const shoppingCartToogle = () => {
+    SetShoppingCart(!shoppingCart);
+  };
+
+  const shoppingCartRemove = (id) => {
+    dispatch(deleteShoppingCard(id));
   };
 
   return (
@@ -223,10 +236,28 @@ export default function Hero() {
           <a href="#" className="text-[#23A6F0] px-4 hover:text-blue-300">
             <FontAwesomeIcon icon={faSearch} />
           </a>
-          <a href="#" className="text-[#23A6F0] hover:text-blue-300">
+          <button
+            onClick={shoppingCartToogle}
+            href="#"
+            className="text-[#23A6F0] hover:text-blue-300"
+          >
             <FontAwesomeIcon icon={faCartShopping} />
             <span className="text-[#23A6F0] pl-1 ">1</span>
-          </a>
+          </button>
+          {shoppingCart && (
+            <div className="bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-8 h-20">
+              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                {shoppingCartSection.map((product) => (
+                  <div>
+                    <img src={product.images[0].url} />
+                    <button onClick={() => shoppingCartRemove(product.id)}>
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </ul>
+            </div>
+          )}
           <a href="#" className="text-[#23A6F0] px-3 hover:text-blue-300">
             <FontAwesomeIcon icon={faHeart} />
             <span className="text-[#23A6F0] px-1">1</span>

@@ -8,7 +8,7 @@ export function addShoppingCart(product) {
 }
 
 export function deleteShoppingCard(id) {
-  return { type: DELETE_SHOPPING_CART, payload: id };
+  return { type: DELETE_SHOPPING_CART, payload: Number(id) };
 }
 
 export function setPayments(payments) {

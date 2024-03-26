@@ -24,7 +24,7 @@ export const shoppingCartReducer = (
     case DELETE_SHOPPING_CART:
       return {
         ...state,
-        cart: state.cart.filter((cart) => cart.id !== action.payload.id),
+        cart: state.cart.filter((cart) => action.payload !== cart.id),
       };
     case SET_PAYMENTS:
       return {

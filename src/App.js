@@ -13,6 +13,7 @@ import { userVerify } from "./store/actions/userAction";
 import { fetchCategories } from "./store/actions/globalActions";
 import { fetchProducts } from "./store/actions/productAction";
 import axios from "axios";
+import ProductDetailPage from "./layout/ProductDetailPage";
 
 function App() {
   const categoryListData = useSelector((store) => store.global.categories);
@@ -32,37 +33,37 @@ function App() {
   for (let i = 0; i < categoryListData.length; i++) {
     console.log(categoryListData[i]);
   }
-
-  useEffect(() => {
-    for (let i = 0; i < categoryListData.length; i++) {
-      axios
-        .post("http://localhost:8082/api/category/", categoryListData[i])
-        .then((res) => {
-          console.log("Post succes", res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [categoryListData]);
-
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        for (let i = 0; i < productListData.length; i++) {
-          const res = await axios.post(
-            "http://localhost:8082/api/product/",
-            productListData[i],
-          );
-          console.log("Post products", res.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    postData();
-  }, [productListData]);
+  //
+  // useEffect(() => {
+  //   for (let i = 0; i < categoryListData.length; i++) {
+  //     axios
+  //       .post("http://localhost:8082/api/category/", categoryListData[i])
+  //       .then((res) => {
+  //         console.log("Post succes", res.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [categoryListData]);
+  //
+  // useEffect(() => {
+  //   const postData = async () => {
+  //     try {
+  //       for (let i = 0; i < productListData.length; i++) {
+  //         const res = await axios.post(
+  //           "http://localhost:8082/api/product/",
+  //           productListData[i],
+  //         );
+  //         console.log("Post products", res.data);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //
+  //   postData();
+  // }, [productListData]);
 
   return (
     <>
@@ -72,6 +73,9 @@ function App() {
         </Route>
         <Route path="/shoping/:gender?/:categoryName?/:catId?" exact>
           <ShopingCard />
+        </Route>
+        <Route path="/productDetail/:category?/:productId?/:productNameSlug?">
+          <ProductDetailPage />
         </Route>
         <Route path="/about" exact>
           <About />

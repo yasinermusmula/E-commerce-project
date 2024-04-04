@@ -46,7 +46,7 @@ export const userVerify = () => (dispatch) => {
   API.get("/verify")
     .then((res) => {
       localStorage.setItem("token", res.data);
-      newAxiosInstance(res.data.token);
+      // newAxiosInstance(res.data.token);
       dispatch(setUser(res.data));
       dispatch(fetchStateUser(FETCH_STATE.FETCHED));
       toast.success("Welcome! Nice to see you again");

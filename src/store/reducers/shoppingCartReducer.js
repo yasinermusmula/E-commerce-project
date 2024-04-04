@@ -1,5 +1,6 @@
 import {
   ADD_SHOPPING_CART,
+  COUNT_CART_DATA,
   DELETE_SHOPPING_CART,
   SET_ADDRESS,
   SET_PAYMENTS,
@@ -9,6 +10,7 @@ const initialShoppingCardState = {
   cart: [],
   payment: {},
   adress: {},
+  countCart: 0,
 };
 
 export const shoppingCartReducer = (
@@ -35,6 +37,11 @@ export const shoppingCartReducer = (
       return {
         ...state,
         address: action.payload,
+      };
+    case COUNT_CART_DATA:
+      return {
+        ...state,
+        countCart: state.countCart + 1,
       };
     default:
       return state;

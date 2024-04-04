@@ -14,7 +14,10 @@ export const userReducers = (state = initialState, action) => {
         user: action.payload,
       };
     case SET_LOG_OUT:
-      return { ...state, user: state.user };
+      return {
+        ...state,
+        user: state.user,
+      };
     case FETCH_STATE_USER:
       return {
         ...state,

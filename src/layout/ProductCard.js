@@ -2,7 +2,10 @@ import React from "react";
 import cartData from "../components/DummyCardData";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addShoppingCart } from "../store/actions/shoppingCartAction";
+import {
+  addShoppingCart,
+  totalCartData,
+} from "../store/actions/shoppingCartAction";
 
 export default function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -10,6 +13,7 @@ export default function ProductCard({ product }) {
 
   const handleAddCart = () => {
     dispatch(addShoppingCart(product));
+    dispatch(totalCartData());
   };
 
   return (

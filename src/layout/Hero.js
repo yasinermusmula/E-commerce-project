@@ -25,7 +25,11 @@ export default function Hero() {
   const manDropDownRef = useRef(null);
   const categories = useSelector((store) => store.global.categories);
   const shoppingCartSection = useSelector((store) => store.shoppingCart.cart);
+  const shoppingCartCount = useSelector(
+    (store) => store.shoppingCart.countCart,
+  );
   console.log(shoppingCartSection);
+  console.log(shoppingCartCount);
 
   const manCat = categories.filter((man) => man.gender === "e");
   const womanCat = categories.filter((women) => women.gender === "k");
@@ -242,9 +246,9 @@ export default function Hero() {
             className="text-[#23A6F0] hover:text-blue-300"
           >
             <FontAwesomeIcon icon={faCartShopping} />
-            <span className="text-[#23A6F0] pl-1 ">1</span>
+            <span className="text-[#23A6F0] pl-1 ">{shoppingCartCount}</span>
           </button>
-          {shoppingCart && (
+          {shoppingCart && shoppingCartSection.length > 0 && (
             <div className="bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-8 h-20">
               <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
                 {shoppingCartSection.map((product) => (

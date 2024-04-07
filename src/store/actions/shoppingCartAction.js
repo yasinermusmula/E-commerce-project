@@ -3,6 +3,7 @@ export const DELETE_SHOPPING_CART = "DELETE_SHOPPING_CART";
 export const SET_PAYMENTS = "SET_PAYMENTS";
 export const SET_ADDRESS = "SET_ADDRESS";
 export const COUNT_CART_DATA = "COUNT_CART_DATA";
+export const DECREASE_PRODUCT = "DECREASE_PRODUCT";
 
 export function addShoppingCart(product) {
   return { type: ADD_SHOPPING_CART, payload: product };
@@ -22,4 +23,8 @@ export function setPayments(payments) {
 
 export function setAddress(address) {
   return { type: SET_ADDRESS, payload: address };
+}
+
+export function decreaseProduct(id) {
+  return { type: DECREASE_PRODUCT, payload: Number(id) };
 }

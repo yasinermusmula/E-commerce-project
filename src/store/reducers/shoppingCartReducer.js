@@ -1,6 +1,7 @@
 import {
   ADD_SHOPPING_CART,
   COUNT_CART_DATA,
+  DECREASE_PRODUCT,
   DELETE_SHOPPING_CART,
   SET_ADDRESS,
   SET_PAYMENTS,
@@ -10,7 +11,6 @@ const initialShoppingCardState = {
   cart: [],
   payment: {},
   adress: {},
-  countCart: 0,
 };
 
 export const shoppingCartReducer = (
@@ -19,14 +19,37 @@ export const shoppingCartReducer = (
 ) => {
   switch (action.type) {
     case ADD_SHOPPING_CART:
-      return {
-        ...state,
-        cart: [...state.cart, action.payload],
-      };
+      const findProduct = state.cart.find(
+        (item) => item.product.id === action.payload.id,
+      );
+      if (findProduct) {
+        findProduct.count++;
+        return {
+          ...state,
+          cart: [...state.cart],
+        };
+      } else {
+        return {
+          ...state,
+          cart: [
+            ...state.cart,
+            { count: 1, checked: true, product: { ...action.payload } },
+          ],
+        };
+      }
     case DELETE_SHOPPING_CART:
       return {
         ...state,
-        cart: state.cart.filter((cart) => action.payload !== cart.id),
+        cart: state.cart.filter((cart) => action.payload !== cart.product.id),
+      };
+    case DECREASE_PRODUCT:
+      const findProduct2 = state.cart.find(
+        (item) => item.product.id === action.payload,
+      );
+      findProduct2.count--;
+      return {
+        ...state,
+        cart: [...state.cart],
       };
     case SET_PAYMENTS:
       return {
@@ -37,11 +60,6 @@ export const shoppingCartReducer = (
       return {
         ...state,
         address: action.payload,
-      };
-    case COUNT_CART_DATA:
-      return {
-        ...state,
-        countCart: state.countCart + 1,
       };
     default:
       return state;

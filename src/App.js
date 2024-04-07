@@ -14,6 +14,7 @@ import { fetchCategories } from "./store/actions/globalActions";
 import { fetchProducts } from "./store/actions/productAction";
 import axios from "axios";
 import ProductDetailPage from "./layout/ProductDetailPage";
+import OrderSummaryPage from "./components/OrderSummaryPage";
 
 function App() {
   const categoryListData = useSelector((store) => store.global.categories);
@@ -88,6 +89,9 @@ function App() {
         </Route>
         <Route path="/contact" exact>
           <Contact />
+        </Route>
+        <Route>
+          <OrderSummaryPage path="/ordersummary" />
         </Route>
       </Switch>
 

@@ -25,7 +25,7 @@ export default function OrderSummaryCardPage({ product }) {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 border border-solid border-semiGrey rounded-xl ">
+    <div className="flex items-center justify-between p-4 border border-solid border-gray-400 rounded-xl ">
       <div className="flex items-center space-x-4">
         <img
           src={product.product.images[0].url}

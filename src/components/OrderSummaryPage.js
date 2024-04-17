@@ -17,17 +17,17 @@ export default function OrderSummaryPage() {
   return (
     <div>
       <Hero />
-      <div className="container my-6 p-4 bg-gray-50 rounded-xl flex justify-between gap-10 items-center">
+      <div className="mx-auto w-[60rem] my-6 p-4 bg-gray-50 rounded-xl flex justify-between gap-10 items-center">
         <div className="flex flex-col w-full">
           <h2 className="text-2xl font-bold mb-4 text-center">Test lorem</h2>
           <div className="font-normal mb-2 text-center"> test loremmmm</div>
-          <div className="flex flex-col space-y-4  bg-white ">
+          <div className="flex flex-col space-y-4 bg-white ">
             {shoppingCart.map((product) => (
               <OrderSummaryCardPage product={product} />
             ))}
           </div>
         </div>
-        <div className="rounded-xl border border-solid border-semiGrey p-4 w-full lg:w-[400px] h-full justify-between flex flex-col bg-white">
+        <div className="rounded-xl border border-solid border-semiGrey p-4 w-96 lg:w-[400px] h-full justify-between flex flex-col bg-white">
           <h3 className="text-2xl font-bold mb-4 text-center">Order Summary</h3>
           <div className="flex flex-col p-2 justify-center ">
             <div className="mb-4">

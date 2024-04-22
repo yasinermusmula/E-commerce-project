@@ -5,6 +5,8 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addShoppingCart } from "../store/actions/shoppingCartAction";
 import OrderSummaryCardPage from "./OrderSummaryCardPage";
+import { Link } from "react-router-dom";
+import { store } from "../store/store";
 
 export default function OrderSummaryPage() {
   const shoppingCart = useSelector((store) => store.shoppingCart.cart);
@@ -42,12 +44,14 @@ export default function OrderSummaryPage() {
               <span className="font-bold">Shipping Total:</span>
               <span>$30</span>
             </div>
-            <button
-              className={`${totalProductPrice === 0 ? "bg-gray-600" : "bg-blue-500"} mt-4 w-full text-white font-bold py-2 px-4 rounded-xl  transition duration-300 ease-in-out place-self-end`}
-              disabled={totalProductPrice === 0}
-            >
-              Create Order
-            </button>
+            <Link to={localStorage.getItem("token") ? `payment` : `login`}>
+              <button
+                className={`${totalProductPrice === 0 ? "bg-gray-600" : "bg-blue-500"} mt-4 w-full text-white font-bold py-2 px-4 rounded-xl  transition duration-300 ease-in-out place-self-end`}
+                disabled={totalProductPrice === 0}
+              >
+                Create Order
+              </button>
+            </Link>
           </div>
         </div>
       </div>

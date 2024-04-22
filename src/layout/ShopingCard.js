@@ -235,13 +235,6 @@ export default function ShopCard() {
                 Next
               </button>
             </div>
-            {/*<ReactPaginate*/}
-            {/*  breakLabel="..."*/}
-            {/*  nextLabel="next >"*/}
-            {/*  onPageChange={handlePageChange}*/}
-            {/*  pageCount={currentPage}*/}
-            {/*  className="flex justify-center text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"*/}
-            {/*/>*/}
             <div className="">
               <div className="">
                 <Clients />

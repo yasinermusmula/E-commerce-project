@@ -4,9 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { API } from "../api/api";
+import { useForm } from "react-hook-form";
+import { cities } from "../data/CitiesData";
 export default function PaymentPage() {
   const [addressToogle, SetAddressToogle] = useState(false);
+  const [cityValue, SetCityValue] = useState("");
+  const [district, setDistrict] = useState([cities[0].districts]);
   const shoppingCart = useSelector((store) => store.shoppingCart.cart);
 
   let totalProductPrice = shoppingCart.reduce((count, item) => {
@@ -15,6 +20,31 @@ export default function PaymentPage() {
 
   const handleToggle = () => {
     SetAddressToogle(!addressToogle);
+    setDistrict([]);
+  };
+
+  const { register, handleSubmit } = useForm();
+
+  useEffect(() => {
+    API.get("/user/address")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleCityValue = (e) => {
+    SetCityValue(e.target.value);
+
+    const selectedCity = cities.find((city) => city.name === e.target.value);
+
+    if (selectedCity) {
+      setDistrict(selectedCity.districts || []);
+    } else {
+      setDistrict([]);
+    }
   };
 
   return (
@@ -105,14 +135,14 @@ export default function PaymentPage() {
               </div>
             </div>
             {addressToogle && (
-              <div
-                className={`fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50`}
-              >
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white p-4 rounded max-w-lg w-full">
                   <form className="space-y-4 ">
                     <div className="flex">
                       <h2 className="items-start">Add New address</h2>
-                      <button className="ml-80">x</button>
+                      <button onClick={handleToggle} className="ml-80">
+                        x
+                      </button>
                     </div>
                     <div className="flex-col flex">
                       <label>Adress Title:</label>
@@ -145,17 +175,27 @@ export default function PaymentPage() {
                       <select
                         name="city"
                         className="border border-gray-500 w-36"
+                        onClick={handleCityValue}
                       >
                         <option>Select a City</option>
-                        <option value="1">Adana</option>
+                        {cities.map((city, index) => (
+                          <option value={city.name} key={index}>
+                            {city.name}
+                          </option>
+                        ))}
                       </select>
                       <label>District:</label>
                       <select
                         name="city"
                         className="border border-gray-500 w-36"
+                        disabled={!cityValue}
                       >
                         <option>Select a District</option>
-                        <option value="1">Adana</option>
+                        {district.map((city, index) => (
+                          <option value={city.name} key={index}>
+                            {city.name}
+                          </option>
+                        ))}
                       </select>
                       <label>Neighbourhood:</label>
                       <input
@@ -172,7 +212,10 @@ export default function PaymentPage() {
                       <button className="rounded mx-2 bg-blue-500 w-28 h-8 font-montserrat text-gray-100 font-medium text-sm">
                         Save address
                       </button>
-                      <button className="mx-2 rounded bg-gray-300 w-20 text-sm font-montserrat">
+                      <button
+                        onClick={handleToggle}
+                        className="mx-2 rounded bg-gray-300 w-20 text-sm font-montserrat"
+                      >
                         Cancel
                       </button>
                     </div>

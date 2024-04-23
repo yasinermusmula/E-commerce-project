@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { API } from "../api/api";
 import { useForm } from "react-hook-form";
 import { cities } from "../data/CitiesData";
@@ -23,17 +23,22 @@ export default function PaymentPage() {
     setDistrict([]);
   };
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm();
 
-  useEffect(() => {
-    API.get("/user/address")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   API.get("/user/address")
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   const handleCityValue = (e) => {
     SetCityValue(e.target.value);
@@ -45,6 +50,18 @@ export default function PaymentPage() {
     } else {
       setDistrict([]);
     }
+  };
+
+  const onSubmit = (formData) => {
+    const { AddresTitle, name, ...data } = formData;
+    // API.post("/user/address", data)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    console.log(data);
   };
 
   return (
@@ -137,7 +154,7 @@ export default function PaymentPage() {
             {addressToogle && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white p-4 rounded max-w-lg w-full">
-                  <form className="space-y-4 ">
+                  <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex">
                       <h2 className="items-start">Add New address</h2>
                       <button onClick={handleToggle} className="ml-80">
@@ -149,33 +166,77 @@ export default function PaymentPage() {
                       <input
                         placeholder="Enter an Adress title (e,g, Home, Work)"
                         className="border rounded border-gray-500 w-full"
+                        {...register("Address Title", {
+                          required: "Adress can't be Empty",
+                        })}
                       />
+                      {errors.AddressTitle && (
+                        <p className="text-red-500">
+                          {errors.AddressTitle.message}
+                        </p>
+                      )}
                       <div className="flex justify-between">
                         <div className="flex-col flex">
                           <label>Name:</label>
                           <input
                             placeholder="name"
                             className="border rounded border-gray-500"
+                            {...register("Name", {
+                              required: "Name can't be empty",
+                              minLength: {
+                                value: 3,
+                                message:
+                                  "You have to write at least 3 characters",
+                              },
+                            })}
                           />
+                          {errors.name && (
+                            <p className="text-red-500">
+                              {errors.name.message}
+                            </p>
+                          )}
                         </div>
                         <div className="flex flex-col">
                           <label>Surname:</label>
                           <input
                             placeholder="Surname"
                             className="border rounded border-gray-500"
+                            {...register("surname", {
+                              required: "Surname can't be empty",
+                              minLength: {
+                                value: 3,
+                                message:
+                                  "You have to write at least 3 characters",
+                              },
+                            })}
                           />
+                          {errors.surname && (
+                            <p className="text-red-500">
+                              {errors.surname.message}
+                            </p>
+                          )}
                         </div>
                       </div>
                       <label>Phone:</label>
                       <input
                         placeholder="+905........"
                         className="border rounded border-gray-500 w-full"
+                        {...register("phone", {
+                          required: "Phone can't be empty",
+                          minLength: {
+                            value: 11,
+                            message: "You have to write at least 11 characters",
+                          },
+                        })}
                       />
+                      {errors.phone && (
+                        <p className="text-red-500">{errors.phone.message}</p>
+                      )}
                       <label>City:</label>
                       <select
-                        name="city"
-                        className="border border-gray-500 w-36"
+                        className="border border-gray-500 w-36 block"
                         onClick={handleCityValue}
+                        {...register("city")}
                       >
                         <option>Select a City</option>
                         {cities.map((city, index) => (
@@ -186,9 +247,9 @@ export default function PaymentPage() {
                       </select>
                       <label>District:</label>
                       <select
-                        name="city"
                         className="border border-gray-500 w-36"
                         disabled={!cityValue}
+                        {...register("district")}
                       >
                         <option>Select a District</option>
                         {district.map((city, index) => (
@@ -201,11 +262,13 @@ export default function PaymentPage() {
                       <input
                         placeholder="Enter your Neighbourhood"
                         className="border rounded border-gray-500 w-full"
+                        {...register("neighbourhood")}
                       />
                       <label>Address:</label>
                       <textarea
                         placeholder="Enter your Adress(Street,Apertment,Home number)"
                         className="border rounded border-gray-500 w-full h-20"
+                        {...register("address")}
                       />
                     </div>
                     <div className="justify-center flex">

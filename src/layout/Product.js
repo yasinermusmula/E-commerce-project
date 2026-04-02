@@ -23,14 +23,10 @@ export default function Product() {
           </div>
         </header>
       </div>
-      <div className="container h-full">
-        <div className="flex flex-wrap gap-10 ml-32 px-16">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6">
           {productData.productList.map((product) => (
-            <Link
-              to={`/productDetail/${product.category_id}/${product.id}/${product.name}`}
-            >
-              <ProductCard product={product} />
-            </Link>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
         <div className="flex justify-center mt-8">

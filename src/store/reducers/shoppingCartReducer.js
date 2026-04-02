@@ -23,10 +23,13 @@ export const shoppingCartReducer = (
         (item) => item.product.id === action.payload.id,
       );
       if (findProduct) {
-        findProduct.count++;
         return {
           ...state,
-          cart: [...state.cart],
+          cart: state.cart.map((item) =>
+            item.product.id === action.payload.id
+              ? { ...item, count: item.count + 1 }
+              : item
+          ),
         };
       } else {
         return {
@@ -43,13 +46,13 @@ export const shoppingCartReducer = (
         cart: state.cart.filter((cart) => action.payload !== cart.product.id),
       };
     case DECREASE_PRODUCT:
-      const findProduct2 = state.cart.find(
-        (item) => item.product.id === action.payload,
-      );
-      findProduct2.count--;
       return {
         ...state,
-        cart: [...state.cart],
+        cart: state.cart.map((item) =>
+          item.product.id === action.payload
+            ? { ...item, count: item.count - 1 }
+            : item
+        ),
       };
     case SET_PAYMENTS:
       return {

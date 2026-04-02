@@ -25,12 +25,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../store/actions/globalActions";
 import { Link } from "react-router-dom";
 import {
-  fetchPorductWithParams,
+  fetchProductWithParams,
   fetchProducts,
+  setNextPage,
+  setPrevPage,
 } from "../store/actions/productAction";
 import { FETCH_STATE } from "../store/reducers/productReducer";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import ReactPaginate from "react-paginate";
+import { Pagination } from "reactstrap";
 
 export default function ShopCard() {
   const dispatch = useDispatch();
@@ -40,10 +43,15 @@ export default function ShopCard() {
   // console.log("Categori çekildi", categorisData);
   console.log("Product cekildi", productData);
   const sortedCatagories = categorisData.sort((a, b) => b.rating - a.rating);
+  // const [currentPageFirst, setCurrentPageFist] = useState(1);
+  // const [currentPageSecond, setCurrentPageSecond] = useState(2);
+  // const [currentPageThird, setCurrentPageThird] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [currentPageLast, setCurrentPageLast] = useState(productData.pageCount);
   const [offset, setOffset] = useState(25);
   console.log("product object", productData);
-  // console.log("Price sort", priceSortingProducts);
+  console.log(productData.pageCount);
 
   console.log("sorted category", sortedCatagories);
   const firstFiveCat = sortedCatagories.slice(0, 5);
@@ -52,7 +60,7 @@ export default function ShopCard() {
   const [paramObj, setParamObj] = useState({
     category: "",
     sort: "",
-    ofset: 0,
+    offset: 0,
   });
 
   const params = useParams();
@@ -65,14 +73,14 @@ export default function ShopCard() {
       ...paramObj,
       category: params.catId,
       sort: sortVal ? sortVal : "",
-      ofset: offset,
+      offset: offset,
     });
     console.log("id", params);
   }, [params, sortVal, offset]);
   //
 
   useEffect(() => {
-    dispatch(fetchPorductWithParams(paramObj));
+    dispatch(fetchProductWithParams(paramObj));
   }, [paramObj.category]);
 
   // useEffect(() => {
@@ -80,21 +88,28 @@ export default function ShopCard() {
   // });
 
   const filterHandle = () => {
-    dispatch(fetchPorductWithParams(paramObj));
+    dispatch(fetchProductWithParams(paramObj));
   };
 
   const handleOnChange = (e) => {
     setParamObj({ ...paramObj, filter: e.target.value });
   };
 
+  // useEffect(() => {
+  //   const totalPages = Math.ceil(productData.totalProductCount / 25);
+  //   setCurrentPageLast(totalPages);
+  //   console.log("total", productData.totalProductCount);
+  //   console.log(totalPages);
+  // }, []);
+
   const totalPages = Math.ceil(productData.totalProductCount / 25);
   console.log("total", productData.totalProductCount);
   console.log(totalPages);
-
-  const handlePageChange = (newOffset) => {
-    setCurrentPage(Math.ceil(newOffset / 25) + 1);
-    setOffset(newOffset);
-    dispatch(fetchPorductWithParams({ ...paramObj, offset: newOffset }));
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    // setOffset(newOffset);
+    // dispatch(fetchProductWithParams({ ...paramObj, offset: newOffset }));
+    setParamObj({ ...paramObj, offset: (newPage - 1) * 25 });
   };
 
   const handlePrevPage = () => {
@@ -108,6 +123,16 @@ export default function ShopCard() {
       handlePageChange(offset + 25);
     }
   };
+
+  // const nextPage = () => {
+  //   dispatch(setNextPage());
+  //   dispatch(fetchProductWithParams);
+  //   console.log(productData.currentPage);
+  // };
+  //
+  // const prevPage = () => {
+  //   dispatch(setPrevPage());
+  // };
 
   return (
     <div>
@@ -200,40 +225,28 @@ export default function ShopCard() {
             </div>
           </div>
 
-          <div className="container h-full xl:mt-2">
-            <div className="flex flex-wrap gap-12 mx-16 px-16">
+          <div className="max-w-7xl mx-auto px-8 xl:mt-2">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6">
               {productData.fetchState === FETCH_STATE.FETCHED ? (
                 productData.productList.map((product) => (
-                  <ProductCard product={product} />
+                  <ProductCard key={product.id} product={product} />
                 ))
               ) : (
                 <div className="m-auto">
-                  <img src={spinnerImg} className="bg-white" />
+                  <img src={spinnerImg} className="bg-gray-600" />
                 </div>
               )}
             </div>
+
             <div className="flex justify-center mt-8">
-              <button
-                onClick={handlePrevPage}
-                className="text-[#BDBDBD] bg-[#F3F3F3] border border-[#BDBDBD] px-4 py-5 rounded font-bold text-base font-montserrat ml-8"
-              >
-                Previous
-              </button>
-              {[...Array(totalPages).keys()].map((pageNum) => (
-                <button
-                  key={pageNum}
-                  onClick={() => handlePageChange(pageNum * 25)}
-                  className={`border ${pageNum * 25 === offset ? "bg-[#23A6F0] text-white" : "text-[#23A6F0] border-[#BDBDBD]"} px-5 py-3 rounded font-bold text-base font-montserrat`}
-                >
-                  {pageNum + 1}
-                </button>
-              ))}
-              <button
-                onClick={handleNextPage}
-                className="text-[#23A6F0] border border-[#BDBDBD] px-5 py-3 rounded font-bold text-base font-montserrat"
-              >
-                Next
-              </button>
+              <Pagination
+                onPageChange={handlePageChange}
+                totalCount={productData.totalProductCount}
+                currentPage={currentPage}
+                pageSize={25}
+                siblingCount={1}
+                className="pagination"
+              />
             </div>
             <div className="">
               <div className="">

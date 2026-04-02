@@ -12,8 +12,9 @@ export default function ProductDetailPage() {
   const productDetailParams = useParams();
   const { productId } = productDetailParams;
 
-  // console.log(productDetailParams);
-  // console.log(productId);
+  console.log(productDetailParams);
+  console.log(productId);
+  console.log(productDetail);
 
   const product = productDetail.find((product) => productId == product.id);
 

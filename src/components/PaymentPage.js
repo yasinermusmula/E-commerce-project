@@ -53,15 +53,22 @@ export default function PaymentPage() {
   };
 
   const onSubmit = (formData) => {
-    const { AddresTitle, name, ...data } = formData;
-    // API.post("/user/address", data)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    console.log(data);
+    const {
+      AddresTitle,
+      // address title,
+      Name,
+      Address,
+
+      ...data
+    } = formData;
+    console.log("form", data);
+    API.post("/user/address", data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -166,8 +173,8 @@ export default function PaymentPage() {
                       <input
                         placeholder="Enter an Adress title (e,g, Home, Work)"
                         className="border rounded border-gray-500 w-full"
-                        {...register("Address Title", {
-                          required: "Adress can't be Empty",
+                        {...register("title", {
+                          required: "Address can't be Empty",
                         })}
                       />
                       {errors.AddressTitle && (
@@ -181,7 +188,7 @@ export default function PaymentPage() {
                           <input
                             placeholder="name"
                             className="border rounded border-gray-500"
-                            {...register("Name", {
+                            {...register("name", {
                               required: "Name can't be empty",
                               minLength: {
                                 value: 3,
@@ -268,7 +275,7 @@ export default function PaymentPage() {
                       <textarea
                         placeholder="Enter your Adress(Street,Apertment,Home number)"
                         className="border rounded border-gray-500 w-full h-20"
-                        {...register("address")}
+                        {...register("Address")}
                       />
                     </div>
                     <div className="justify-center flex">

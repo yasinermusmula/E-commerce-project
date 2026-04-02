@@ -16,42 +16,53 @@ export default function ProductCard({ product }) {
     dispatch(totalCartData());
   };
 
+  const stars = Math.round(product.rating);
+
   return (
-    <div
-      key={product.id}
-      className="w-[11rem] m-auto hover:shadow-lg hover:transform hover:scale-105 transition duration-300"
-    >
-      <div className="text-center mb-2">
-        <Link
-          to={`/productDetail/${product.category_id}/${product.id}/${product.name}`}
-          product={product}
-        >
-          <img
-            src={product.images[0].url}
-            alt={product.description}
-            className=" mb-2 cursor-pointer"
-          />
-        </Link>
-        <h5 className="text-lg font-bold mb-2 text-[#252B42] font-montserrat">
+    <div className="w-full flex flex-col bg-white rounded-lg border border-gray-100 shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition duration-300">
+      <Link
+        to={`/productDetail/${product.category_id}/${product.id}/${product.name}`}
+      >
+        <img
+          src={product.images[0].url}
+          alt={product.name}
+          className="w-full aspect-square object-contain  cursor-pointer"
+        />
+      </Link>
+      <div className="p-4 flex flex-col flex-1">
+        <h5 className="text-sm font-bold text-[#252B42] font-montserrat truncate">
           {product.name}
         </h5>
-        <p className="text-sm text-center items-center font-bold text-[#737373] mb-2 font-montserrat">
-          {firstFive}
-          <br />
-          Rating: {product.rating}
+        <p className="text-xs text-[#737373] font-montserrat mt-1 truncate">
+          {firstFive}...
         </p>
-        <div className="flex justify-center">
-          <p className="text-base font-bold text-[#BDBDBD]">{product.price}$</p>
-          <p className="text-base font-bold ml-2 text-[#23856D]">
-            {product.price}$
-          </p>
+        <div className="flex items-center mt-2 gap-1">
+          {[1, 2, 3, 4, 5].map((s) => (
+            <span
+              key={s}
+              className={s <= stars ? "text-yellow-400" : "text-gray-300"}
+            >
+              ★
+            </span>
+          ))}
+          <span className="text-xs text-[#737373] ml-1">{product.rating}</span>
         </div>
-        <button
-          onClick={handleAddCart}
-          className="bg-blue-500 p-1 text-white font-montserrat"
-        >
-          Add To Cart
-        </button>
+        <div className="flex items-center justify-between mt-auto pt-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-[#BDBDBD] line-through">
+              ${product.price}
+            </span>
+            <span className="text-sm font-bold text-[#23856D]">
+              ${product.price}
+            </span>
+          </div>
+          <button
+            onClick={handleAddCart}
+            className="bg-[#23A6F0] hover:bg-blue-500 text-white text-[10px] font-montserrat px-2 py-1 rounded transition whitespace-nowrap shrink-0"
+          >
+            Add to Card
+          </button>
+        </div>
       </div>
     </div>
   );

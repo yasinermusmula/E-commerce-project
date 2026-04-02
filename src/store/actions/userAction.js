@@ -45,7 +45,8 @@ export const userLogOutAction = () => (dispatch) => {
 export const userVerify = () => (dispatch) => {
   API.get("/verify")
     .then((res) => {
-      localStorage.setItem("token", res.data);
+      localStorage.setItem("token", res.data.token);
+      // console.log("user verify", res.data);
       // newAxiosInstance(res.data.token);
       dispatch(setUser(res.data));
       dispatch(fetchStateUser(FETCH_STATE.FETCHED));

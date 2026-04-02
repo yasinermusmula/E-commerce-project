@@ -6,8 +6,11 @@ export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
 export const SET_PRODUCT_COUNT = "SET_PRODUCT_COUNT";
 export const SET_PAGE_COUNT = "SET_PAGE_COUNT";
 export const SET_ACTIVE_COUNT = "SET_ACTIVE_COUNT";
-
 export const SET_FETCH_STATE = "SET_FETCH_STATE";
+export const SET_NEXT_PAGE = "SET_NEXT_PAGE";
+export const SET_PREV_PAGE = "SET_PREV_PAGE";
+export const SET_PER_PAGE = "SET_PER_PAGE";
+export const CLICK_CURRENT_PAGE = "CLICK_CURRENT_PAGE";
 
 export function setProductList(productList) {
   return { type: SET_PRODUCT_LIST, payload: productList };
@@ -27,12 +30,21 @@ export function setFetchState(fetchState) {
   return { type: SET_FETCH_STATE, payload: fetchState };
 }
 
+export function setNextPage() {
+  return { type: SET_NEXT_PAGE };
+}
+
+export function setPrevPage() {
+  return { type: SET_PREV_PAGE };
+}
+
 export const fetchProducts = () => (dispatch, getState) => {
   dispatch(setFetchState(FETCH_STATE.FETCHING));
   API.get("products")
     .then((res) => {
       dispatch(setProductList(res.data.products));
       dispatch(setProductCount(res.data.total));
+      dispatch(setPageCount(Math.ceil(res.data.total / 25)));
       dispatch(setFetchState(FETCH_STATE.FETCHED));
       console.log("Products Fetched", res.data.products);
     })
@@ -42,11 +54,12 @@ export const fetchProducts = () => (dispatch, getState) => {
     });
 };
 
-export const fetchPorductWithParams = (params) => (dispatch) => {
+export const fetchProductWithParams = (params) => (dispatch) => {
   dispatch(setFetchState(FETCH_STATE.FETCHING));
   API.get("products", { params }).then((res) => {
     dispatch(setProductList(res.data.products));
     dispatch(setProductCount(res.data.total));
+    dispatch(setPageCount(Math.ceil(res.data.total / 25)));
     dispatch(setFetchState(FETCH_STATE.FETCHED));
     console.log("Product with params fetched", res.data.products);
   });

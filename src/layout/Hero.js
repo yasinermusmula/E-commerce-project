@@ -61,24 +61,42 @@ export default function Hero() {
 
   return (
     <nav className="bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" ref={shopRef}>
-
+      <div
+        className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
+        ref={shopRef}
+      >
         {/* Sol: Brand + Nav Links */}
         <div className="flex items-center gap-1">
           <h3 className="text-[#252B42] text-2xl font-montserrat font-bold tracking-wide mr-4">
             BrandName
           </h3>
-          <Link to="/" className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition">Home</Link>
+          <Link
+            to="/"
+            className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition"
+          >
+            Home
+          </Link>
 
           <div className="relative">
             <div className="flex items-center">
-              <Link to="/shoping" className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition">Shop</Link>
+              <Link
+                to="/shoping"
+                className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition"
+              >
+                Shop
+              </Link>
               <button
                 onClick={firstToggleDropdown}
                 className={`text-[#737373] hover:text-[#23A6F0] pr-2 transition-transform duration-200 ${firstDropDown ? "rotate-90" : ""}`}
               >
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 6 10">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 9 4-4-4-4"
+                  />
                 </svg>
               </button>
             </div>
@@ -88,8 +106,18 @@ export default function Hero() {
                   <li>
                     <button className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-50 hover:text-[#23A6F0] transition">
                       Man
-                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                      <svg
+                        className="w-2.5 h-2.5"
+                        fill="none"
+                        viewBox="0 0 6 10"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m1 9 4-4-4-4"
+                        />
                       </svg>
                     </button>
                   </li>
@@ -99,8 +127,18 @@ export default function Hero() {
                       onMouseEnter={handleMouseEnter}
                     >
                       Women
-                      <svg className={`w-2.5 h-2.5 transition-transform ${secondDropDown ? "rotate-90" : ""}`} fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                      <svg
+                        className={`w-2.5 h-2.5 transition-transform ${secondDropDown ? "rotate-90" : ""}`}
+                        fill="none"
+                        viewBox="0 0 6 10"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m1 9 4-4-4-4"
+                        />
                       </svg>
                     </button>
                     {secondDropDown && (
@@ -129,23 +167,51 @@ export default function Hero() {
             )}
           </div>
 
-          <Link to="/about" className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition">About</Link>
-          <a href="#" className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition">Blog</a>
-          <Link to="/contact" className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition">Contact</Link>
-          <a href="#" className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition">Pages</a>
+          <Link
+            to="/about"
+            className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition"
+          >
+            About
+          </Link>
+          <a
+            href="#"
+            className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition"
+          >
+            Blog
+          </a>
+          <Link
+            to="/contact"
+            className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition"
+          >
+            Contact
+          </Link>
+          <a
+            href="#"
+            className="text-[#737373] font-montserrat font-bold px-3 py-1 hover:text-[#23A6F0] transition"
+          >
+            Pages
+          </a>
         </div>
 
         {/* Sağ: Icons */}
         <div className="flex items-center gap-4">
           {fetchData === FETCH_STATE.FETCHED ? (
             <>
-              <span className="text-[#252B42] font-montserrat font-bold text-sm">{loginData.name}</span>
-              <button onClick={logOut} className="text-[#23A6F0] font-montserrat font-bold text-sm hover:text-blue-400 transition">
+              <span className="text-[#252B42] font-montserrat font-bold text-sm">
+                {loginData.name}
+              </span>
+              <button
+                onClick={logOut}
+                className="text-[#23A6F0] font-montserrat font-bold text-sm hover:text-blue-400 transition"
+              >
                 Log Out
               </button>
             </>
           ) : (
-            <Link to="/login" className="flex items-center gap-1 text-[#23A6F0] font-montserrat font-bold text-sm hover:text-blue-400 transition">
+            <Link
+              to="/login"
+              className="flex items-center gap-1 text-[#23A6F0] font-montserrat font-bold text-sm hover:text-blue-400 transition"
+            >
               <FontAwesomeIcon icon={faUser} />
               <span>Login / Register</span>
             </Link>
@@ -154,10 +220,16 @@ export default function Hero() {
             <FontAwesomeIcon icon={faSearch} />
           </a>
           <div className="relative">
-            <button onClick={shoppingCartToogle} className="text-[#23A6F0] hover:text-blue-400 transition flex items-center gap-1">
+            <button
+              onClick={shoppingCartToogle}
+              className="text-[#23A6F0] hover:text-blue-400 transition flex items-center gap-1"
+            >
               <FontAwesomeIcon icon={faCartShopping} />
               <span className="text-sm font-bold">
-                {shoppingCartSection.reduce((count, item) => count + item.count, 0)}
+                {shoppingCartSection.reduce(
+                  (count, item) => count + item.count,
+                  0,
+                )}
               </span>
             </button>
             {shoppingCart && shoppingCartSection.length > 0 && (
@@ -176,12 +248,14 @@ export default function Hero() {
               </div>
             )}
           </div>
-          <a href="#" className="text-[#23A6F0] hover:text-blue-400 transition flex items-center gap-1">
+          <a
+            href="#"
+            className="text-[#23A6F0] hover:text-blue-400 transition flex items-center gap-1"
+          >
             <FontAwesomeIcon icon={faHeart} />
             <span className="text-sm font-bold">1</span>
           </a>
         </div>
-
       </div>
     </nav>
   );

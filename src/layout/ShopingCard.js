@@ -24,12 +24,7 @@ import { API } from "../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../store/actions/globalActions";
 import { Link } from "react-router-dom";
-import {
-  fetchProductWithParams,
-  fetchProducts,
-  setNextPage,
-  setPrevPage,
-} from "../store/actions/productAction";
+import { fetchProductWithParams } from "../store/actions/productAction";
 import { FETCH_STATE } from "../store/reducers/productReducer";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import ReactPaginate from "react-paginate";
@@ -47,92 +42,59 @@ export default function ShopCard() {
   // const [currentPageSecond, setCurrentPageSecond] = useState(2);
   // const [currentPageThird, setCurrentPageThird] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [currentPageLast, setCurrentPageLast] = useState(productData.pageCount);
-  const [offset, setOffset] = useState(25);
-  console.log("product object", productData);
-  console.log(productData.pageCount);
-
-  console.log("sorted category", sortedCatagories);
-  const firstFiveCat = sortedCatagories.slice(0, 5);
-  console.log("first five", firstFiveCat);
   const [sortVal, setSortVal] = useState("");
+  const [filterVal, setFilterVal] = useState("");
   const [paramObj, setParamObj] = useState({
     category: "",
     sort: "",
+    filter: "",
     offset: 0,
   });
 
   const params = useParams();
-  console.log(params);
 
-  // console.log(cat);
+  const firstFiveCat = sortedCatagories.slice(0, 5);
+
+  // Kategori veya sort değişince page 1'e sıfırla
+  useEffect(() => {
+    setParamObj((prev) => ({
+      ...prev,
+      category: params.catId || "",
+      offset: 0,
+    }));
+    setCurrentPage(1);
+  }, [params.catId]);
 
   useEffect(() => {
-    setParamObj({
-      ...paramObj,
-      category: params.catId,
-      sort: sortVal ? sortVal : "",
-      offset: offset,
-    });
-    console.log("id", params);
-  }, [params, sortVal, offset]);
-  //
+    setParamObj((prev) => ({
+      ...prev,
+      sort: sortVal,
+      offset: 0,
+    }));
+    setCurrentPage(1);
+  }, [sortVal]);
 
+  // paramObj her değiştiğinde API'yi çağır
   useEffect(() => {
     dispatch(fetchProductWithParams(paramObj));
-  }, [paramObj.category]);
+  }, [paramObj]);
 
-  // useEffect(() => {
-  //   dispatch(fetchPorductWithParams);
-  // });
+  const totalPages = Math.ceil(productData.totalProductCount / 25);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected + 1);
+    setParamObj((prev) => ({ ...prev, offset: selected * 25 }));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const filterHandle = () => {
-    dispatch(fetchProductWithParams(paramObj));
+    setParamObj((prev) => ({ ...prev, filter: filterVal, offset: 0 }));
+    setCurrentPage(1);
   };
 
   const handleOnChange = (e) => {
-    setParamObj({ ...paramObj, filter: e.target.value });
+    setFilterVal(e.target.value);
   };
-
-  // useEffect(() => {
-  //   const totalPages = Math.ceil(productData.totalProductCount / 25);
-  //   setCurrentPageLast(totalPages);
-  //   console.log("total", productData.totalProductCount);
-  //   console.log(totalPages);
-  // }, []);
-
-  const totalPages = Math.ceil(productData.totalProductCount / 25);
-  console.log("total", productData.totalProductCount);
-  console.log(totalPages);
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    // setOffset(newOffset);
-    // dispatch(fetchProductWithParams({ ...paramObj, offset: newOffset }));
-    setParamObj({ ...paramObj, offset: (newPage - 1) * 25 });
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      handlePageChange(offset - 25);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(offset + 25);
-    }
-  };
-
-  // const nextPage = () => {
-  //   dispatch(setNextPage());
-  //   dispatch(fetchProductWithParams);
-  //   console.log(productData.currentPage);
-  // };
-  //
-  // const prevPage = () => {
-  //   dispatch(setPrevPage());
-  // };
 
   return (
     <div>
@@ -174,7 +136,6 @@ export default function ShopCard() {
               </Link>
             ))}
           </div>
-
           <div className="flex justify-around m-10">
             <div>
               <h6 className="font-bold font-montserrat text-base text-[#737373] mt-1">
@@ -195,7 +156,7 @@ export default function ShopCard() {
               </button>
             </div>
             <div>
-              <input onChange={handleOnChange} />
+              <input value={filterVal} onChange={handleOnChange} />
               <button
                 onClick={filterHandle}
                 className="border border-black rounded w-20 h-8 ml-2 bg-[#23A6F0] text-[#FFFFFF]"
@@ -224,10 +185,9 @@ export default function ShopCard() {
               </button>
             </div>
           </div>
-
           <div className="max-w-7xl mx-auto px-8 xl:mt-2">
             <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6">
-              {productData.fetchState === FETCH_STATE.FETCHED ? (
+              {productData.fetchState !== FETCH_STATE.NOT_FETCHED ? (
                 productData.productList.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))
@@ -238,16 +198,36 @@ export default function ShopCard() {
               )}
             </div>
 
-            <div className="flex justify-center mt-8">
-              <Pagination
-                onPageChange={handlePageChange}
-                totalCount={productData.totalProductCount}
-                currentPage={currentPage}
-                pageSize={25}
-                siblingCount={1}
-                className="pagination"
-              />
-            </div>
+            {totalPages > 1 && (
+              <div className="flex justify-center mt-10 mb-4">
+                <ReactPaginate
+                  pageCount={totalPages}
+                  onPageChange={handlePageChange}
+                  forcePage={currentPage - 1}
+                  previousLabel={"←"}
+                  nextLabel={"→"}
+                  breakLabel={"..."}
+                  containerClassName={"flex items-center gap-1"}
+                  pageClassName={""}
+                  pageLinkClassName={
+                    "w-9 h-9 flex items-center justify-center rounded border border-gray-200 text-sm text-[#737373] hover:bg-[#23A6F0] hover:text-white hover:border-[#23A6F0] transition"
+                  }
+                  activeLinkClassName={
+                    "!bg-[#23A6F0] !text-white !border-[#23A6F0]"
+                  }
+                  previousLinkClassName={
+                    "w-9 h-9 flex items-center justify-center rounded border border-gray-200 text-sm text-[#737373] hover:bg-[#23A6F0] hover:text-white hover:border-[#23A6F0] transition"
+                  }
+                  nextLinkClassName={
+                    "w-9 h-9 flex items-center justify-center rounded border border-gray-200 text-sm text-[#737373] hover:bg-[#23A6F0] hover:text-white hover:border-[#23A6F0] transition"
+                  }
+                  breakLinkClassName={
+                    "w-9 h-9 flex items-center justify-center text-sm text-[#737373]"
+                  }
+                  disabledLinkClassName={"opacity-40 cursor-not-allowed"}
+                />
+              </div>
+            )}
             <div className="">
               <div className="">
                 <Clients />

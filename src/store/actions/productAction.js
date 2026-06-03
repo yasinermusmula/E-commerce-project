@@ -3,6 +3,7 @@ import { API } from "../../api/api";
 import axios from "axios";
 
 export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
+export const APPEND_PRODUCT_LIST = "APPEND_PRODUCT_LIST";
 export const SET_PRODUCT_COUNT = "SET_PRODUCT_COUNT";
 export const SET_PAGE_COUNT = "SET_PAGE_COUNT";
 export const SET_ACTIVE_COUNT = "SET_ACTIVE_COUNT";
@@ -14,6 +15,10 @@ export const CLICK_CURRENT_PAGE = "CLICK_CURRENT_PAGE";
 
 export function setProductList(productList) {
   return { type: SET_PRODUCT_LIST, payload: productList };
+}
+
+export function appendProductList(productList) {
+  return { type: APPEND_PRODUCT_LIST, payload: productList };
 }
 
 export function setProductCount(productCount) {
@@ -62,5 +67,15 @@ export const fetchProductWithParams = (params) => (dispatch) => {
     dispatch(setPageCount(Math.ceil(res.data.total / 25)));
     dispatch(setFetchState(FETCH_STATE.FETCHED));
     console.log("Product with params fetched", res.data.products);
+  });
+};
+
+export const fetchMoreProducts = (params) => (dispatch) => {
+  dispatch(setFetchState(FETCH_STATE.FETCHING));
+  API.get("products", { params }).then((res) => {
+    dispatch(appendProductList(res.data.products));
+    dispatch(setProductCount(res.data.total));
+    dispatch(setFetchState(FETCH_STATE.FETCHED));
+    console.log("More products fetched", res.data.products);
   });
 };

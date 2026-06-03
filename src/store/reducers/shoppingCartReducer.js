@@ -28,7 +28,7 @@ export const shoppingCartReducer = (
           cart: state.cart.map((item) =>
             item.product.id === action.payload.id
               ? { ...item, count: item.count + 1 }
-              : item
+              : item,
           ),
         };
       } else {
@@ -51,7 +51,7 @@ export const shoppingCartReducer = (
         cart: state.cart.map((item) =>
           item.product.id === action.payload
             ? { ...item, count: item.count - 1 }
-            : item
+            : item,
         ),
       };
     case SET_PAYMENTS:

@@ -1,4 +1,5 @@
 import {
+  APPEND_PRODUCT_LIST,
   CLICK_CURRENT_PAGE,
   SET_FETCH_STATE,
   SET_NEXT_PAGE,
@@ -32,6 +33,11 @@ export const productReducer = (state = initialProductState, action) => {
       return {
         ...state,
         productList: action.payload,
+      };
+    case APPEND_PRODUCT_LIST:
+      return {
+        ...state,
+        productList: [...state.productList, ...action.payload],
       };
     case SET_PRODUCT_COUNT:
       return {
